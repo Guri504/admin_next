@@ -1,0 +1,133 @@
+@use "../base/variable.scss";
+@use "../base/mixins.scss";
+
+.dropdown {
+    &.outline_dropdown {
+        .dropdown-toggle {
+            &.btn {
+                &.btn-primary {
+                    background-color: variable.$transparent;
+                    color: variable.$primary_color;
+                    @include mixins.transition(all 0.5s ease-in-out);
+                    box-shadow: none;
+
+                }
+            }
+
+            &:hover {
+                &.btn {
+                    &.btn-primary {
+                        background-color: variable.$primary_color;
+                        color: variable.$white;
+                    }
+                }
+
+                &::after {
+                    color: variable.$white;
+
+                }
+            }
+
+            &::after {
+                @include mixins.transition(all 0.5s ease-in-out);
+                color: variable.$primary_color;
+            }
+        }
+
+    }
+
+    .dropdown-toggle {
+        position: relative;
+
+        &.btn {
+            &.btn-primary {
+                min-width: unset;
+                padding: 9px 18px;
+                color: variable.$white;
+                border: 1px solid variable.$primary_color;
+                border-radius: 7px;
+            }
+        }
+
+        &::after {
+            border: none;
+            content: '\f078';
+            font-family: 'font awesome 5 free';
+            font-weight: 700;
+            font-size: 12px;
+            color: variable.$white;
+            padding-left: 5px;
+            vertical-align: unset;
+        }
+    }
+
+    .dropdown-menu {
+        padding: 0;
+        box-shadow: 0 .25rem .75rem 0 rgba(34, 48, 62, .14);
+        border: none;
+        margin-top: 5px;
+        overflow: hidden;
+
+        .dropdown-item {
+            padding: 10px 15px;
+            font-size: 15px;
+            font-weight: 400;
+            color: variable.$grey4;
+
+            &:hover {
+                background-color: rgba(34, 48, 62, 0.06);
+            }
+        }
+
+        .dropdown-divider {
+            margin: 0;
+        }
+    }
+}
+
+
+
+/** Above 1920 desktop */
+@media (min-width: 1920px) {}
+
+/* 1680 desktop */
+@media (min-width: 1680px) and (max-width: 1919px) {}
+
+/* 1600 desktop */
+@media (min-width: 1600px) and (max-width: 1679px) {}
+
+/* Above 1400 and Below 1599 Desktop*/
+@media (min-width: 1400px) and (max-width: 1599px) {}
+
+/* 1300 desktop only */
+@media (min-width: 1300px) and (max-width: 1399px) {}
+
+/* 1200 desktop only */
+@media (min-width: 1200px) and (max-width: 1299px) {}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+/* Landscape tablets and ipad */
+@media (min-width: 768px) and (max-width: 991px) {}
+
+/* Landscape phones and portrait tablets */
+@media (min-width: 576px) and (max-width: 767px) {}
+
+/* Landscape phones and portrait tablets */
+@media (min-width: 361px) and (max-width: 575px) {}
+
+/* Smaller phones */
+@media (max-width: 360px) {}
+
+/* Smaller phones */
+@media (max-width: 320px) {}
+
+
+
+
+/* Add CSS styles for Portrait orientation */
+@media screen and (orientation: portrait) {}
+
+/* Add CSS styles for Landscape orientation */
+@media screen and (orientation: landscape) {}

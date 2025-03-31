@@ -1,0 +1,425 @@
+@use "../base/variable.scss";
+@use "../base/mixins.scss";
+@use 'sass:color';
+
+.nav_btm {
+    padding: 24px 20px 140px 20px;
+    background-color: variable.$primary_color;
+
+    .left {
+        .title {
+            font-size: 20px;
+            font-weight: 500;
+            color: variable.$white;
+            display: inline-block;
+        }
+
+        .txt {
+            font-size: 15px;
+            font-weight: 400;
+            color: variable.$white;
+            margin-top: 10px;
+        }
+
+        .chip {
+            display: inline-block;
+            border-radius: 5px;
+            color: variable.$light_blue2;
+            font-size: 13px;
+            font-weight: 400;
+            text-align: center;
+            width: fit-content;
+            padding: 4px 10px;
+            background-color: variable.$white;
+            margin-left: 15px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            &.pick {
+                color: variable.$green;
+            }
+        }
+    }
+
+    .right {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: end;
+        gap: 10px;
+
+        .filter_dropdown {
+            .btn {
+                &.dropdown-toggle {
+                    &.btn-primary {
+                        background-color: variable.$transparent;
+                        padding: 0;
+                        min-width: unset;
+                        line-height: unset;
+                    }
+                }
+
+                // &::after {
+                //     display: none;
+                // }
+            }
+
+            .dropdown-menu {
+                width: 380px;
+                min-width: unset;
+                padding: 15px 0;
+                overflow: hidden;
+                box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+                border: none;
+                inset: 0px 0px auto auto !important;
+                transform: translate(0, 50px) !important;
+
+                .crossMain {
+                    display: flex;
+                    justify-content: flex-end;
+
+                    .cross_icon {
+                        font-size: 20px;
+                        color: variable.$primary_color;
+                        text-align: end;
+                        margin-right: 10px;
+                        cursor: pointer;
+                    }
+                }
+
+                .dropdown-item {
+                    padding: 0;
+
+                    &:active,
+                    &:focus {
+                        background-color: variable.$transparent;
+                    }
+
+                    .select_area {
+                        display: flex;
+                        align-items: center;
+                        column-gap: 20px;
+                        padding: 15px 18px;
+                        border-bottom: 1px solid variable.$border_color;
+                    }
+
+
+                    .date_area {
+                        padding: 15px 18px;
+                        border-bottom: 1px solid variable.$border_color;
+                    }
+
+                }
+
+                .btn_main {
+                    display: flex;
+                    justify-content: space-between;
+                    column-gap: 50px;
+                    padding: 0 15px;
+                    margin-top: 15px;
+
+                    .btn_area {
+                        .btn {
+                            line-height: unset;
+
+                            &.btn-primary {
+                                display: block;
+                                background-color: variable.$primary_color;
+                                min-width: 70px;
+                                color: variable.$white;
+                                font-size: 13px;
+                                font-weight: 400;
+                                border: none;
+                                line-height: unset;
+                                outline: none;
+                                padding: 6px 10px;
+                                border-radius: 5px;
+                                text-align: center;
+                                @include mixins.transition(all 0.5s ease-in-out);
+
+                                &:hover,
+                                &:focus,
+                                &:active {
+                                    background-color: color.scale(variable.$primary_color, $lightness: -10%);
+                                    box-shadow: none !important;
+                                }
+
+                                &.reset_btn {
+                                    background-color: variable.$orange;
+
+                                    &:hover,
+                                    &:focus,
+                                    &:active {
+                                        background-color: color.scale(variable.$orange, $lightness: -10%);
+                                        box-shadow: none !important;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        .btn_area {
+            text-align: right;
+
+            .back_btn {
+                .filter_icon {
+                    font-size: 14px;
+                }
+
+                span {
+                    padding-right: 2px;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .form-select {
+            width: 80px;
+
+            option {
+                font-size: 14px;
+            }
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        // .dropdown {
+
+        //     .dropdown-toggle {
+        //         &:hover {
+        //             &.btn {
+        //                 &.btn-primary {
+        //                     background-color: variable.$inputColor;
+        //                     color: variable.$white;
+
+        //                     .upload_icon,
+        //                     .down_icon {
+        //                         color: variable.$white;
+        //                     }
+        //                 }
+        //             }
+        //         }
+
+        //         &.btn {
+        //             &.btn-primary {
+        //                 background-color: variable.$white;
+        //                 color: variable.$inputColor;
+        //                 font-size: 15px;
+        //                 padding: 12px 20px;
+        //                 min-width: unset;
+        //                 border: none;
+        //                 box-shadow: unset;
+        //                 display: flex;
+        //                 column-gap: 10px;
+        //                 align-items: center;
+        //                 @include mixins.transition(all 0.5s ease-in-out);
+
+        //                 &::after {
+        //                     display: none;
+        //                 }
+
+        //                 .icon {
+        //                     font-weight: 700;
+        //                     font-size: 14px;
+        //                     // padding-right: 8px;
+        //                     color: variable.$inputColor;
+        //                     @include mixins.transition(all 0.5s ease-in-out);
+        //                 }
+        //             }
+        //         }
+        //     }
+
+        //     .dropdown-menu {
+        //         padding: 5px 0;
+        //         min-width: unset;
+        //         width: 170px;
+        //         border: none;
+        //         inset: 0px 0px auto auto !important;
+        //         transform: translate(0, 40px) !important;
+        //         box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+
+
+        //         .dropdown-item {
+        //             padding: 12px 20px;
+        //             font-size: 14px;
+        //             color: variable.$inputColor;
+
+        //             .icon {
+        //                 padding-right: 4px;
+        //                 font-size: 14px;
+        //                 color: variable.$inputColor;
+        //             }
+
+        //             &:focus {
+        //                 background-color: variable.$transparent;
+        //             }
+        //         }
+        //     }
+        // }
+
+    }
+}
+
+
+/** Above 1920 desktop */
+@media (min-width: 1920px) {}
+
+/* 1680 desktop */
+@media (min-width: 1680px) and (max-width: 1919px) {}
+
+/* 1600 desktop */
+@media (min-width: 1600px) and (max-width: 1679px) {}
+
+/* Above 1400 and Below 1599 Desktop*/
+@media (min-width: 1400px) and (max-width: 1599px) {}
+
+/* 1300 desktop only */
+@media (min-width: 1300px) and (max-width: 1399px) {}
+
+/* 1200 desktop only */
+@media (min-width: 1200px) and (max-width: 1299px) {}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .nav_btm {
+        padding: 20px 20px 120px 20px;
+
+        .left {
+            .title {
+                font-size: 20px;
+            }
+        }
+
+        .right {
+            .dropdown {
+                .dropdown-menu {
+                    padding: 10px 0;
+                    transform: translate(0, 40px) !important;
+
+                }
+            }
+        }
+    }
+}
+
+
+/* Landscape tablets and ipad */
+@media (min-width: 768px) and (max-width: 991px) {
+    .nav_btm {
+        padding: 15px 15px 120px 15px;
+
+        .left {
+            .title {
+                font-size: 18px;
+            }
+        }
+
+        .right {
+
+            .dropdown {
+                .dropdown-menu {
+                    width: 350px;
+                    padding: 10px 0;
+                    transform: translate(0, 40px) !important;
+
+                }
+            }
+        }
+    }
+}
+
+/* Landscape phones and portrait tablets */
+@media (min-width: 576px) and (max-width: 767px) {
+    .nav_btm {
+        padding: 15px 15px 120px 15px;
+
+        .left {
+            .title {
+                font-size: 18px;
+            }
+        }
+
+        .right {
+
+            .dropdown {
+                .dropdown-menu {
+                    width: 350px;
+                    padding: 10px 0;
+                    transform: translate(0, 40px) !important;
+
+                }
+            }
+        }
+    }
+}
+
+/* Landscape phones and portrait tablets */
+@media (min-width: 361px) and (max-width: 575px) {
+    .nav_btm {
+        padding: 15px 15px 120px 15px;
+
+        .left {
+            .title {
+                font-size: 18px;
+            }
+        }
+
+        .right {
+            margin-top: 25px;
+
+            .dropdown {
+                .dropdown-menu {
+                    width: 347px;
+                    padding: 10px 0;
+                    transform: translate(0, 40px) !important;
+
+                }
+            }
+        }
+    }
+}
+
+/* Smaller phones */
+@media (max-width: 360px) {
+    .nav_btm {
+        padding: 15px 15px 120px 15px;
+
+        .left {
+
+            .title {
+                font-size: 18px;
+            }
+        }
+
+        .right {
+            margin-top: 25px;
+
+            .dropdown {
+                .dropdown-menu {
+                    width: 330px;
+                    padding: 10px 0;
+                    transform: translate(0, 40px) !important;
+                }
+            }
+        }
+    }
+}
+
+/* Smaller phones */
+@media (max-width: 320px) {}
+
+
+
+
+/* Add CSS styles for Portrait orientation */
+@media screen and (orientation: portrait) {}
+
+/* Add CSS styles for Landscape orientation */
+@media screen and (orientation: landscape) {}

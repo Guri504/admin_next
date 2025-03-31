@@ -1,0 +1,89 @@
+@use "../base/variable.scss";
+@use "../base/mixins.scss";
+
+
+.tab_main {
+    box-shadow: 0 .1875rem .5rem 0 rgba(34, 48, 62, .1);
+    border-radius: 10px;
+
+    .nav {
+        .nav-item {
+            .nav-link {
+                border: none;
+                font-size: 15px;
+                font-weight: 500;
+                color: variable.$grey2;
+                border-bottom: 2px solid variable.$transparent;
+                padding: 10px 20px;
+                @include mixins.transition(all 0.3s ease-in-out);
+
+                &.active {
+                    color: variable.$primary_color;
+                    border-color: variable.$primary_color;
+                }
+
+                &:hover:not(.active) {
+                    color: variable.$primary_color;
+                    border-color: variable.$border_color;
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        .tab_desc {
+            font-size: 14px;
+            font-weight: 400;
+            color: variable.$grey2;
+            line-height: 23px;
+            padding: 20px;
+            margin-bottom: 0;
+        }
+    }
+
+}
+
+/** Above 1920 desktop */
+@media (min-width: 1920px) {}
+
+/* 1680 desktop */
+@media (min-width: 1680px) and (max-width: 1919px) {}
+
+/* 1600 desktop */
+@media (min-width: 1600px) and (max-width: 1679px) {}
+
+/* Above 1400 and Below 1599 Desktop*/
+@media (min-width: 1400px) and (max-width: 1599px) {}
+
+/* 1300 desktop only */
+@media (min-width: 1300px) and (max-width: 1399px) {}
+
+/* 1200 desktop only */
+@media (min-width: 1200px) and (max-width: 1299px) {}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+/* Landscape tablets and ipad */
+@media (min-width: 768px) and (max-width: 991px) {}
+
+/* Landscape phones and portrait tablets */
+@media (min-width: 576px) and (max-width: 767px) {}
+
+/* Landscape phones and portrait tablets */
+@media (min-width: 361px) and (max-width: 575px) {}
+
+/* Smaller phones */
+@media (max-width: 360px) {}
+
+/* Smaller phones */
+@media (max-width: 320px) {}
+
+
+
+
+/* Add CSS styles for Portrait orientation */
+@media screen and (orientation: portrait) {}
+
+/* Add CSS styles for Landscape orientation */
+@media screen and (orientation: landscape) {}
