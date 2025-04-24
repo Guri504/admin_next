@@ -1,0 +1,17 @@
+{
+  "[project]/node_modules/@ckeditor/ckeditor5-react/dist/index.js [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/node_modules/@ckeditor/ckeditor5-react/dist/index.js [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_@ckeditor_f76ffa85._.js",
+      "static/chunks/node_modules_@ckeditor_ckeditor5-react_dist_index_25d3efaa.js"
+    ]
+  },
+  "[project]/node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_@ckeditor_ckeditor5-build-classic_build_ckeditor_6a8b66e7.js",
+      "static/chunks/node_modules_@ckeditor_ckeditor5-build-classic_build_ckeditor_b388337a.js",
+      "static/chunks/node_modules_@ckeditor_ckeditor5-build-classic_build_ckeditor_87d11c5a.js"
+    ]
+  }
+}

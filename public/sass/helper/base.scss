@@ -151,6 +151,16 @@ body {
 	padding: 4px 10px;
 }
 
+.tab-green {
+	background-color: green !important;
+	font-size: 15px;
+}
+
+.tab-red {
+	background-color: red !important;
+	font-size: 15px;
+}
+
 .form-check {
 	//radio button style
 	display: flex;
@@ -558,7 +568,8 @@ body {
 }
 
 .back_btn {
-	display: inline-block;
+	display: flex;
+	gap: 10px;
 	background-color: variable.$white;
 	min-width: 90px;
 	color: variable.$primary_color;

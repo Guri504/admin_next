@@ -1,0 +1,3 @@
+{
+  "/(dashboard)/winners/page": "app/(dashboard)/winners/page.js"
+}

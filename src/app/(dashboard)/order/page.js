@@ -97,9 +97,9 @@ const Order = () => {
                                 <thead>
                                     <tr>
                                         <th><Form.Check /></th>
-                                        <th>order</th>
+                                        <th>order Id</th>
                                         <th>date</th>
-                                        <th>customers</th>
+                                        <th>customer name</th>
                                         <th>payment</th>
                                         <th>status</th>
                                         <th>method</th>
@@ -108,7 +108,7 @@ const Order = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
+                                        [...Array(10)].map((_, index) => (
                                             <tr key={index}>
                                                 <td><Form.Check /></td>
                                                 <td>#6544</td>

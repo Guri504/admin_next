@@ -1,0 +1,3 @@
+{
+  "/(dashboard)/membership_plan_services/view/[id]/page": "app/(dashboard)/membership_plan_services/view/[id]/page.js"
+}

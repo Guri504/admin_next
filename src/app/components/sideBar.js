@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import '../../../public/sass/pages/sidebar.scss';
-import { faUsers, faAngleDown, faSignOutAlt, faFileAlt, faQuestionCircle, faAddressCard, faBars, faMapMarkerAlt, faAngleRight, faHomeAlt, faAngleLeft, faBlog, faUsersGear } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faAngleDown, faSignOutAlt, faFileAlt, faQuestionCircle, faAddressCard, faBars, faMapMarkerAlt, faAngleRight, faHomeAlt, faAngleLeft, faBlog, faUsersGear, faFunnelDollar, faHeading, faDumbbell, faInfo, faCircleInfo, faTrash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
@@ -9,6 +9,23 @@ import Link from 'next/link';
 
 
 const SideBar = (props) => {
+
+    const trashLinks = [
+        { name: 'about_me' },
+        { name: 'blogs' },
+        { name: 'blogs_category' },
+        { name: 'membership_plan_services' },
+        { name: 'training_plan_services' },
+        { name: 'training_plans' },
+        { name: 'membership_plans' },
+        { name: 'strategy_plans' },
+        { name: 'success_stories' },
+        { name: 'products' },
+        { name: 'products_category' },
+        { name: 'products_sizes' },
+        { name: 'product_variants' },
+    ]
+
     const {
         toggleSidebar,
         isSidebarOpen
@@ -64,7 +81,63 @@ const SideBar = (props) => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="#" className='link_area' onClick={() => showFunc('Blogs')}>
+                            <div className='link_area' onClick={() => showFunc('Pages')}>
+                                <div className='dropDown_area'>
+                                    <div className='dropDown'>
+                                        <div className='left_side'>
+                                            <span className='icon'>
+                                                <FontAwesomeIcon icon={faFileAlt} />
+                                            </span>
+                                            <span className='title'>
+                                                Pages Content
+                                            </span>
+                                        </div>
+                                        <div className='right_side'>
+                                            <span className='right_arrow'>
+                                                {show === "Pages" ? <FontAwesomeIcon icon={faAngleDown} /> : <FontAwesomeIcon icon={faAngleRight} />}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className={`dropDown_content ${show === "Pages" ? 'show' : ''}`}>
+                                <ul>
+                                    <li>
+                                        <Link href="#" className='dropDownItem active'>
+                                            Home
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/pages/about_me" className='dropDownItem '>
+                                            About Me
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/pages/fitness_membership_plans" className='dropDownItem'>
+                                            Fitness Membership Plans
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/pages/training_plans" className='dropDownItem'>
+                                            1-1 Training Plans
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className='dropDownItem'>
+                                            Help Center
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className='dropDownItem'>
+                                            Member Ship
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='link_area' onClick={() => showFunc('Blogs')}>
                                 <div className="dropDown_area">
                                     <div className="dropDown">
                                         <div className="left_side">
@@ -82,7 +155,7 @@ const SideBar = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                             <div className={`dropDown_content ${show === 'Blogs' ? 'show' : ''}`}>
                                 <ul>
                                     <li>
@@ -99,7 +172,17 @@ const SideBar = (props) => {
                             </div>
                         </li>
                         <li>
-                            <Link href="#" className='link_area' onClick={() => showFunc('Services')}>
+                            <Link href="/videos" className='link_area'>
+                                <span className='icon'>
+                                    <FontAwesomeIcon icon={faVideo} />
+                                </span>
+                                <span className='title'>
+                                    Videos
+                                </span>
+                            </Link>
+                        </li>
+                        <li>
+                            <div className='link_area' onClick={() => showFunc('Services')}>
                                 <div className="dropDown_area">
                                     <div className="dropDown">
                                         <div className="left_side">
@@ -117,7 +200,7 @@ const SideBar = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                             <div className={`dropDown_content ${show === 'Services' ? 'show' : ''}`}>
                                 <ul>
                                     <li>
@@ -134,68 +217,87 @@ const SideBar = (props) => {
                             </div>
                         </li>
                         <li>
-                            <Link href="#" className='link_area' onClick={() => showFunc('Pages')}>
-                                <div className='dropDown_area'>
-                                    <div className='dropDown'>
-                                        <div className='left_side'>
-                                            <span className='icon'>
-                                                <FontAwesomeIcon icon={faFileAlt} />
+                            <div className='link_area' onClick={() => showFunc('Plans')}>
+                                <div className="dropDown_area">
+                                    <div className="dropDown">
+                                        <div className="left_side">
+                                            <span className="icon">
+                                                <FontAwesomeIcon icon={faFunnelDollar} />
                                             </span>
-                                            <span className='title'>
-                                                Pages
+                                            <span className="title">
+                                                Plans
                                             </span>
                                         </div>
-                                        <div className='right_side'>
-                                            <span className='right_arrow'>
-                                                {show === "Pages" ? <FontAwesomeIcon icon={faAngleDown} /> : <FontAwesomeIcon icon={faAngleRight} />}
+                                        <div className="right_side">
+                                            <span className="right_arrow">
+                                                {show === 'Plans' ? <FontAwesomeIcon icon={faAngleDown} /> : <FontAwesomeIcon icon={faAngleRight} />}
                                             </span>
                                         </div>
                                     </div>
-
                                 </div>
-                            </Link>
-                            <div className={`dropDown_content ${show === "Pages" ? 'show' : ''}`}>
+                            </div>
+                            <div className={`dropDown_content ${show === 'Plans' ? 'show' : ''}`}>
                                 <ul>
                                     <li>
-                                        <Link href="#" className='dropDownItem active'>
-                                            Home
+                                        <Link href="/membership_plans" className='dropDownItem '>
+                                            Membership Plans
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            About us
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Privacy Policy
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Terms & Conditions
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Payment Type
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Help Center
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Member Ship
+                                        <Link href="/training_plans" className='dropDownItem '>
+                                            Training Plans
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li>
-                            <Link href="#" className='link_area' onClick={() => showFunc('Products')}>
+                            <Link href="/success_stories" className='link_area'>
+                                <span className='icon'>
+                                    <FontAwesomeIcon icon={faDumbbell} />
+                                </span>
+                                <span className='title'>
+                                    Success Stories
+                                </span>
+                            </Link>
+                        </li>
+                        <li>
+                            <div className='link_area' onClick={() => showFunc('About Me')}>
+                                <div className="dropDown_area">
+                                    <div className="dropDown">
+                                        <div className="left_side">
+                                            <span className="icon">
+                                                <FontAwesomeIcon icon={faCircleInfo} />
+                                            </span>
+                                            <span className="title">
+                                                About Me
+                                            </span>
+                                        </div>
+                                        <div className="right_side">
+                                            <span className="right_arrow">
+                                                {show === 'About Me' ? <FontAwesomeIcon icon={faAngleDown} /> : <FontAwesomeIcon icon={faAngleRight} />}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`dropDown_content ${show === 'About Me' ? 'show' : ''}`}>
+                                <ul>
+                                    <li>
+                                        <Link href="/winners" className='dropDownItem active'>
+                                            Winners
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/strategy_plans" className='dropDownItem '>
+                                            Strategy Plans
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='link_area' onClick={() => showFunc('Products')}>
                                 <div className='dropDown_area'>
                                     <div className='dropDown'>
                                         <div className='left_side'>
@@ -213,32 +315,32 @@ const SideBar = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                             <div className={`dropDown_content ${show === "Products" ? 'show' : ''}`}>
                                 <ul>
                                     <li>
-                                        <Link href="#" className='dropDownItem'>
+                                        <Link href="/products" className='dropDownItem'>
                                             Products
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className='dropDownItem'>
+                                        <Link href="/products_category" className='dropDownItem'>
                                             Categories
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Sub Categories
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
+                                        <Link href="/products_sizes" className='dropDownItem'>
                                             Product Sizes
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className='dropDownItem'>
+                                        <Link href="/products_colors" className='dropDownItem'>
                                             Products Colors
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/product_variants" className='dropDownItem'>
+                                            Variants
                                         </Link>
                                     </li>
                                     <li>
@@ -246,6 +348,38 @@ const SideBar = (props) => {
                                             Conditions
                                         </Link>
                                     </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div className='link_area' onClick={() => showFunc('Trash')} style={{ cursor: 'pointer' }}>
+                                <div className='dropDown_area'>
+                                    <div className='dropDown'>
+                                        <div className='left_side'>
+                                            <span className='icon'>
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </span>
+                                            <span className='title'>
+                                                Trash
+                                            </span>
+                                        </div>
+                                        <div className='right_side'>
+                                            <span className='right_arrow'>
+                                                {show === "Trash" ? <FontAwesomeIcon icon={faAngleDown} /> : <FontAwesomeIcon icon={faAngleRight} />}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`dropDown_content ${show === "Trash" ? 'show' : ''}`}>
+                                <ul>
+                                    {
+                                        trashLinks?.map((item, i) => {
+                                            const type = item.name;
+                                            return <li key={i}><Link href={`/trash/${type}`} className='dropDownItem'>{item.name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}</Link></li>
+                                        })
+                                    }
+
                                 </ul>
                             </div>
                         </li>
@@ -270,7 +404,7 @@ const SideBar = (props) => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="#" className='link_area' onClick={() => showFunc('Orders')}>
+                            <div className='link_area' onClick={() => showFunc('Orders')}>
                                 <div className='dropDown_area'>
                                     <div className='dropDown'>
                                         <div className='left_side'>
@@ -290,16 +424,16 @@ const SideBar = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                             <div className={`dropDown_content ${show === "Orders" ? 'show' : ''}`}>
                                 <ul>
                                     <li>
-                                        <Link href="order" className='dropDownItem'>
+                                        <Link href="/order" className='dropDownItem'>
                                             Order List
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="orderDetail" className='dropDownItem'>
+                                        <Link href="/orderDetail" className='dropDownItem'>
                                             Order Detail
                                         </Link>
                                     </li>
@@ -332,7 +466,7 @@ const SideBar = (props) => {
                             </div>
                         </li>
                         <li>
-                            <Link href="#" className='link_area' onClick={() => showFunc('Activites')}>
+                            <div className='link_area' onClick={() => showFunc('Activites')}>
                                 <div className='dropDown_area'>
                                     <div className='dropDown'>
                                         <div className='left_side'>
@@ -350,7 +484,7 @@ const SideBar = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                             <div className={`dropDown_content ${show === "Activites" ? 'show' : ''}`}>
                                 <ul>
                                     <li>
@@ -367,7 +501,7 @@ const SideBar = (props) => {
                             </div>
                         </li>
                         <li>
-                            <Link href="#" className='link_area' onClick={() => showFunc('Locations')}>
+                            <div className='link_area' onClick={() => showFunc('Locations')}>
                                 <div className='dropDown_area'>
                                     <div className='dropDown'>
                                         <div className='left_side'>
@@ -385,7 +519,7 @@ const SideBar = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                             <div className={`dropDown_content ${show === "Locations" ? 'show' : ''}`}>
                                 <ul>
                                     <li>

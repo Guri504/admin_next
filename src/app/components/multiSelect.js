@@ -8,7 +8,7 @@ import '../../../public/sass/pages/multiSelect.scss';
 
 
 
-const MultiSelect = () => {
+const MultiSelect = ({name, placeholder, isClearable, isMulti, value, defaulValue, options, onChange}) => {
 
     // Colour Options  
     const colourOptions = [
@@ -61,12 +61,15 @@ const MultiSelect = () => {
         <Select
             className="select_main"
             classNamePrefix="select"
-            placeholder={"Select the value"}
-            isClearable={false}
-            isMulti={false}
-            name="color"
-            formatGroupLabel={formatGroupLabel}
-            options={colourOptions} // for the single and multi select
+            placeholder={placeholder}
+            isClearable={isClearable}
+            isMulti={isMulti}
+            defaultValue={defaulValue}
+            name={name}
+            value={value}
+            // formatGroupLabel={formatGroupLabel}
+            options={options}  // for the single and multi select
+            onChange={onChange} 
         // options={groupedOptions} // for the group options
         />
     );

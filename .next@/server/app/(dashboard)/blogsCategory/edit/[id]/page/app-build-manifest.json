@@ -1,0 +1,32 @@
+{
+  "pages": {
+    "/(dashboard)/blogsCategory/edit/[id]/page": [
+      "static/chunks/_a91c21._.js",
+      "static/chunks/src_app_favicon_ico_mjs_ddfdf0._.js",
+      "static/chunks/[root of the server]__0cb938._.css",
+      "static/chunks/src_app_layout_4b4952.js",
+      "static/chunks/src_app_layout_61af54.js",
+      "static/chunks/_8c14c4._.js",
+      "static/chunks/node_modules_next_6805eb._.js",
+      "static/chunks/node_modules_@fortawesome_free-solid-svg-icons_index_mjs_6d4e8d._.js",
+      "static/chunks/node_modules_@popperjs_core_lib_3e0fb4._.js",
+      "static/chunks/node_modules_@fortawesome_free-brands-svg-icons_index_mjs_660f2e._.js",
+      "static/chunks/node_modules_dfe37f._.js",
+      "static/chunks/public_sass_pages_2f6277._.css",
+      "static/chunks/src_app_(dashboard)_layout_7f3a1d.js",
+      "static/chunks/node_modules_bb9844._.js",
+      "static/chunks/src_7df202._.js",
+      "static/chunks/public_sass_pages_b66f9c._.css",
+      "static/chunks/node_modules_react-select_dist_react-select_esm_eb3462.js",
+      "static/chunks/src_app_(dashboard)_blogsCategory_edit_[id]_page_e9c499.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
+      "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
+      "static/chunks/node_modules_next_dist_client_523921._.js",
+      "static/chunks/node_modules_next_dist_4bb10e._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636a._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_d0a96d._.js",
+      "static/chunks/_e69f0d._.js",
+      "static/chunks/_d95469._.js"
+    ]
+  }
+}

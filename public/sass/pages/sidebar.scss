@@ -119,6 +119,7 @@
                     }
 
                     .link_area {
+                        cursor: pointer;
                         display: block;
                         padding: 13px 15px;
                         margin-bottom: 2px;
@@ -190,7 +191,7 @@
 
                         &.show {
                             height: auto;
-                            max-height: 300px;
+                            // max-height: 300px;
                             // z-index: 99;
                         }
 

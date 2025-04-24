@@ -1,0 +1,263 @@
+/* [project]/public/sass/pages/adminLayout.scss.css [app-client] (css) */
+@keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@-webkit-keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@keyframes smoothScroll {
+  0% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.layout_main {
+  display: flex;
+  height: 100%;
+}
+
+.layout_main .left_main {
+  width: 260px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin-right: 0;
+  margin-left: 0;
+  z-index: 999;
+  background-color: #fff;
+}
+
+.layout_main .right_main {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+}
+
+@media (width >= 992px) and (width <= 1199px) {
+  .layout_main .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0000004d;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  .layout_main .overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .layout_main .left_main {
+    width: 230px;
+    margin-left: -230px;
+    transition: transform .3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .layout_main .left_main.open {
+    transform: translateX(230px);
+  }
+
+  .layout_main .right_main {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (width >= 768px) and (width <= 991px) {
+  .layout_main .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0000004d;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  .layout_main .overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .layout_main .left_main {
+    width: 230px;
+    margin-left: -230px;
+    transition: transform .3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .layout_main .left_main.open {
+    transform: translateX(230px);
+  }
+
+  .layout_main .right_main {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (width >= 576px) and (width <= 767px) {
+  .layout_main .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0000004d;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  .layout_main .overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .layout_main .left_main {
+    width: 230px;
+    margin-left: -230px;
+    transition: transform .3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .layout_main .left_main.open {
+    transform: translateX(230px);
+  }
+
+  .layout_main .right_main {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (width >= 361px) and (width <= 575px) {
+  .layout_main .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0000004d;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  .layout_main .overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .layout_main .left_main {
+    width: 230px;
+    margin-left: -230px;
+    transition: transform .3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .layout_main .left_main.open {
+    transform: translateX(230px);
+  }
+
+  .layout_main .right_main {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (width <= 360px) {
+  .layout_main .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0000004d;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  .layout_main .overlay.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .layout_main .left_main {
+    width: 230px;
+    margin-left: -230px;
+    transition: transform .3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .layout_main .left_main.open {
+    transform: translateX(230px);
+  }
+
+  .layout_main .right_main {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/*# sourceMappingURL=public_sass_pages_adminLayout_scss_b52d8e.css.map*/

@@ -1,0 +1,255 @@
+/* [project]/public/sass/pages/add.scss.css [app-client] (css) */
+@keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@-webkit-keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@keyframes smoothScroll {
+  0% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+form .btn_area {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+form .form-group.form-group2 .input-group .form-control {
+  font-size: 14px;
+  font-weight: 500;
+  color: #697a8d;
+  border-left: 1px solid #d9dee3;
+  padding: 10px 15px;
+  border-radius: 7px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -ms-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+form .form-group.form-group2 .input-group .form-control:focus {
+  border-color: #696cff;
+}
+
+form .form-group.form-group2 .input-group .input-group-text {
+  background-color: #fff;
+  border: 1px solid #d9dee3;
+  border-left: 1px solid #d9dee3;
+  font-size: 14px;
+  font-weight: 400;
+  color: #697a8d;
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -ms-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+form .form-group.form-group2 .input-group .input-group-text:before {
+  content: "";
+  display: block;
+  border-left: 1px solid #d9dee3;
+  height: 100%;
+  width: 100%;
+  padding-left: 10px;
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -ms-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+form .form-group.form-group2 .input-group .input-group-text:last-child {
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+form .form-group.form-group2 .input-group .input-group-text:last-child:before {
+  display: none;
+}
+
+form .form-group.form-group2 .input-group:focus-within .input-group-text {
+  border-color: #696cff;
+}
+
+form .form-group.form-group2 .input-group:focus-within .input-group-text:before {
+  border-color: #696cff;
+}
+
+form .upload_img_area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+form .upload_img_area .img_area {
+  height: 115px;
+  width: 115px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+form .upload_img_area .img_area .cross_icon {
+  display: inline-block;
+  position: absolute;
+  background-color: #fff;
+  height: 23px;
+  width: 23px;
+  border-radius: 50%;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  margin-top: 0;
+  margin-right: 0;
+  font-size: 15px;
+  display: flex;
+  color: #696cff;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px #63636333;
+  cursor: pointer;
+}
+
+form .upload_img_area .img_area img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media (width >= 992px) and (width <= 1199px) {
+  form .upload_img_area .img_area {
+    height: 108px;
+    width: 108px;
+  }
+
+  form .upload_img_area .img_area .cross_icon {
+    height: 20px;
+    width: 20px;
+    font-size: 14px;
+  }
+}
+
+@media (width >= 768px) and (width <= 991px) {
+  form .hiddenInput {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  form .upload_img_area .img_area {
+    height: 105px;
+    width: 105px;
+  }
+
+  form .upload_img_area .img_area .cross_icon {
+    height: 18px;
+    width: 18px;
+    font-size: 13px;
+  }
+}
+
+@media (width >= 576px) and (width <= 767px) {
+  form .upload_img_area .img_area {
+    height: 113px;
+    width: 113px;
+  }
+
+  form .upload_img_area .img_area .cross_icon {
+    height: 20px;
+    width: 20px;
+    font-size: 13px;
+  }
+}
+
+@media (width >= 361px) and (width <= 575px) {
+  form .upload_img_area .img_area {
+    height: 98px;
+    width: 98px;
+  }
+
+  form .upload_img_area .img_area .cross_icon {
+    height: 18px;
+    width: 18px;
+    font-size: 13px;
+  }
+
+  form .btn_area {
+    justify-content: center;
+    margin-top: 25px;
+  }
+}
+
+@media (width <= 360px) {
+  form .upload_img_area .img_area {
+    height: 93px;
+    width: 93px;
+  }
+
+  form .upload_img_area .img_area .cross_icon {
+    height: 18px;
+    width: 18px;
+    font-size: 13px;
+  }
+
+  form .btn_area {
+    justify-content: center;
+    margin-top: 25px;
+  }
+}
+
+/*# sourceMappingURL=public_sass_pages_add_scss_b52d8e88.css.map*/

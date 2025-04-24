@@ -56,7 +56,7 @@ const Membership_Plan_Service_Listing = () => {
                 toast.error(resp.message);
             }
         } catch (error) {
-            console.log("Error updating blog status", error);
+            console.log("Error updating status", error);
             toast.error(resp.message);
         }
     };

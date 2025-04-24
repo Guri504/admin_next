@@ -1,0 +1,322 @@
+/* [project]/public/sass/helper/reset.scss.css [app-client] (css) */
+@keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@-webkit-keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@keyframes smoothScroll {
+  0% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -ms-transition: all .3s;
+  -o-transition: all .3s ease;
+  transition: all .3s;
+  color: #fff;
+}
+
+a:hover {
+  text-decoration: none;
+  outline: none;
+}
+
+a:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.btn {
+  border: 0;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border-radius: 0;
+}
+
+.btn:hover {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+}
+
+.btn:focus {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+}
+
+.btn:active {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+}
+
+.btn:active:focus {
+  box-shadow: none;
+}
+
+.btn:visited {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul li, ol li {
+  list-style: none;
+}
+
+.btn {
+  border: 0;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border-radius: 0;
+}
+
+.btn:hover {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  background-color: #111;
+}
+
+.btn:focus {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  background-color: #111;
+}
+
+.btn:active {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  background-color: #111;
+}
+
+.btn:active:focus {
+  box-shadow: none;
+}
+
+.btn:visited {
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  background-color: #111;
+}
+
+.list-inline {
+  margin: 0;
+  padding: 0;
+}
+
+.list-inline:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.list-inline li {
+  float: left;
+}
+
+.list-inline li a {
+  display: inline-block;
+}
+
+.form-control {
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+}
+
+.form-control:hover {
+  border-radius: 0;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+}
+
+.form-control:focus {
+  border-radius: 0;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+}
+
+.form-control:active {
+  border-radius: 0;
+  box-shadow: none;
+  text-decoration: none;
+  outline: none;
+}
+
+.form-check {
+  margin-bottom: 0;
+}
+
+table {
+  margin-bottom: 0;
+}
+
+table {
+  margin: 0 !important;
+}
+
+td, th {
+  border: 0;
+  padding: 0;
+}
+
+@media (width >= 1920px) {
+  .container {
+    max-width: 1330px;
+  }
+}
+
+@media (width >= 1680px) and (width <= 1919px) {
+  .container {
+    max-width: 1330px;
+  }
+}
+
+@media (width >= 1600px) and (width <= 1679px) {
+  .container {
+    max-width: 1330px;
+  }
+}
+
+@media (width >= 1400px) and (width <= 1599px) {
+  .container {
+    max-width: 1330px;
+  }
+}
+
+@media (width >= 1280px) and (width <= 1399px) {
+  .container {
+    max-width: 1170px;
+  }
+}
+
+@media (width >= 992px) and (width <= 1199px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (width >= 768px) and (width <= 991px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (width >= 544px) and (width <= 767px) {
+  .container {
+    min-width: 100%;
+  }
+}
+
+@media (width >= 361px) and (width <= 543px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (width <= 360px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+/*# sourceMappingURL=public_sass_helper_reset_scss_b52d8e.css.map*/

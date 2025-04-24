@@ -131,7 +131,6 @@ const EditBLog = () => {
 
     useEffect(() => {
         defaultData();
-        console.log("object", category)
     }, [category])
 
     const [show, setShow] = useState(false);

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack://[project]/public/sass/helper/helper.scss.css"],"sourcesContent":["@keyframes slide{0%{background-size:100%}50%{background-size:110%}100%{background-size:100%}}@-webkit-keyframes slide{0%{background-size:100%}50%{background-size:110%}100%{background-size:100%}}@keyframes smoothScroll{0%{transform:translateY(-100px)}100%{transform:translateY(0px)}}@-webkit-keyframes topToBottomAnimation{0%{transform:translateY(0)}100%{transform:translateY(-10px)}}@keyframes topToBottomAnimation{0%{transform:translateY(0)}100%{transform:translateY(-10px)}}"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;AAA6F;;;;;;;;;;;;;;AAAqG;;;;;;;;;;AAAwF;;;;;;;;;;AAAqG"}},
+    {"offset": {"line": 58, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

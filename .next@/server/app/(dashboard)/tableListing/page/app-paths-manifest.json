@@ -1,0 +1,3 @@
+{
+  "/(dashboard)/tableListing/page": "app/(dashboard)/tableListing/page.js"
+}

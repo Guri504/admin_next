@@ -14,7 +14,7 @@ import { faEye, faEyeSlash, faRedo, faTimes, } from '@fortawesome/free-solid-svg
 import NavBottom from '@/app/components/navBottom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
-import { getApi, postApi, toBase64, uploadClick} from '../../../../helpers'
+import { fetchCategories, getApi, postApi, toBase64, uploadClick} from '../../../../helpers'
 import Image from 'next/image';
 import { ClientPageRoot } from 'next/dist/client/components/client-page';
 
@@ -53,7 +53,6 @@ const AddBLog = () => {
                 selected_img: img
             }
             let resp = await postApi('admin/blog/add', finalData);
-            // console.log("Blog added successfully", resp)
             if (resp.status) {
                 setBlogData({
                     title: "",
@@ -82,22 +81,6 @@ const AddBLog = () => {
         }));
     }
 
-    // let catData = async () => {
-    //     try {
-    //         let resp = await getApi('admin/blogsCategory')
-    //         if (resp.status) {
-    //             setCategoryData(resp.message)
-    //             const formattedCategories = resp.message.map(item => ({
-    //                 value: item._id,
-    //                 label: item.blogCategoryTitle
-    //             }));
-    //             setCategory(formattedCategories);
-    //         }
-    //     } catch (error) {
-    //         console.error("Fetching Error", error)
-    //     }
-    // }
-
     const onFileChange = (e) => {
         uploadClick(e, setProgress, setImgData, setImg);
         e.currentTarget.value = "";
@@ -108,8 +91,7 @@ const AddBLog = () => {
     }
 
     useEffect(() => {
-        fetchCategories(setCategory),
-            console.log(typeof imgData)
+        fetchCategories(setCategory)
     }, [])
 
     const [show, setShow] = useState(false);
@@ -182,7 +164,7 @@ const AddBLog = () => {
                                             isMulti={true}
                                             name="category"
                                             value={category.filter(option => blogData.category.includes(option.value))}
-                                            onChange={(selectedOptions) =>
+                                            onChange={(selectedOptions) =>  
                                                 setBlogData(prev => ({ ...prev, category: selectedOptions.map(option => option.value) }))
                                             }
                                             options={category} // for the single and multi select

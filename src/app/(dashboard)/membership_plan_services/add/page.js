@@ -17,16 +17,18 @@ const Membership_Plan_Service_Add = () => {
     const [showPass, setShowPass] = useState(false);
     const [message, setMessage] = useState('')
 
+
     const serviceSubmit = async (e) => {
         e.preventDefault();
         const formdata = new FormData(e.target);
         let finalData = Object.fromEntries(formdata.entries())
+        console.log(finalData)
         try {
             let resp = await postApi('admin/membershipPlanService/add', finalData)
             console.log("resp", resp);
             if (resp.status) {
-                setMessage(resp.message)
-                e.target.reset()
+                setMessage(resp.message);
+                e.target.reset();
             }
         } catch (error) {
             console.log(error)
@@ -62,7 +64,7 @@ const Membership_Plan_Service_Add = () => {
                                 <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
                                     <Form.Group className='form-group'>
                                         <Form.Label>Description <span>*</span></Form.Label>
-                                        <CustomEditor 
+                                        <CustomEditor
                                             name='description'
                                             placeholder='Enter Service Description'
                                         />

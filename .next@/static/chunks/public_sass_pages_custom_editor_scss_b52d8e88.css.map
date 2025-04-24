@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/public/sass/pages/custom_editor.scss.css"],"sourcesContent":[".ck .ck-editor__main .ck-editor__editable{height:100px}"],"names":[],"mappings":"AAAA"}}]
+}

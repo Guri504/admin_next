@@ -1,0 +1,4 @@
+{
+  "/(dashboard)/membership_plan_services/add/page": "app/(dashboard)/membership_plan_services/add/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
+}

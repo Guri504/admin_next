@@ -1,0 +1,102 @@
+/* [project]/public/sass/pages/tooltip.scss.css [app-client] (css) */
+@keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@-webkit-keyframes slide {
+  0% {
+    background-size: 100%;
+  }
+
+  50% {
+    background-size: 110%;
+  }
+
+  100% {
+    background-size: 100%;
+  }
+}
+
+@keyframes smoothScroll {
+  0% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes topToBottomAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.tooltip_area {
+  display: inline-block;
+}
+
+.tooltip .tooltip-inner {
+  padding: 8px 12px;
+}
+
+.tooltip .tooltip-inner .tooltip_container {
+  text-align: "left";
+}
+
+.tooltip .tooltip-inner .tooltip_container .info {
+  font-size: 13px;
+  font-weight: 400;
+  color: #fff;
+}
+
+@media (width >= 768px) and (width <= 991px) {
+  .tooltip-link {
+    font-size: 15px;
+  }
+}
+
+@media (width >= 576px) and (width <= 767px) {
+  .tooltip-link {
+    font-size: 15px;
+  }
+}
+
+@media (width >= 361px) and (width <= 575px) {
+  .tooltip-link {
+    font-size: 15px;
+  }
+}
+
+@media (width <= 360px) {
+  .tooltip-link {
+    font-size: 15px;
+  }
+}
+
+/*# sourceMappingURL=public_sass_pages_tooltip_scss_b52d8e.css.map*/
