@@ -36,7 +36,7 @@ const Strategy_Plan_Listing = () => {
 
     const deletePlan = async (id) => {
         try {
-            let resp = await deleteApi(`admin/strategy_plan/delete/${id}`);
+            let resp = await putApi(`admin/strategy_plan/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

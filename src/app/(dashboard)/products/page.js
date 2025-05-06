@@ -48,7 +48,7 @@ const Products_Listing = () => {
 
     const deleteProduct = async (id) => {
         try {
-            let resp = await deleteApi(`admin/product/delete/${id}`);
+            let resp = await putApi(`admin/product/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

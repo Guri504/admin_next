@@ -34,7 +34,7 @@ const Product_Sizes_Listing = () => {
 
     const deleteSize = async (id) => {
         try {
-            let resp = await deleteApi(`admin/product-size/delete/${id}`);
+            let resp = await putApi(`admin/product-size/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

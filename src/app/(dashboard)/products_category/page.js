@@ -34,7 +34,7 @@ const Category_Listing = () => {
 
     const deleteCategory = async (id) => {
         try {
-            let resp = await deleteApi(`admin/products-category/delete/${id}`);
+            let resp = await putApi(`admin/products-category/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

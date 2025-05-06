@@ -37,7 +37,7 @@ const Membership_Plan_Service_Listing = () => {
 
     const deleteService = async (id) => {
         try {
-            let resp = await deleteApi(`admin/membershipPlanService/delete/${id}`);
+            let resp = await putApi(`admin/membershipPlanService/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

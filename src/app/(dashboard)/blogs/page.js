@@ -26,7 +26,7 @@ const BlogListing = () => {
 
     const deleteBlog = async (id) => {
         try {
-            let resp = await deleteApi(`admin/blog/delete/${id}`);
+            let resp = await putApi(`admin/blog/delete/${id}`);
             if (resp.status) {
                 toast("Blog Deleted successfully")
                 blogListing()

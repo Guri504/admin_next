@@ -484,7 +484,7 @@ const SideBar = (props) => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className='dropDownItem'>
+                                        <Link href="/email_logs" className='dropDownItem'>
                                             Email Logs
                                         </Link>
                                     </li>

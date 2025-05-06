@@ -37,7 +37,8 @@ const Membership_Plans_Listing = () => {
 
     const deletePlan = async (id) => {
         try {
-            let resp = await deleteApi(`admin/membershipPlan/delete/${id}`);
+            let resp = await putApi(`admin/membershipPlan/delete/${id}`);
+            console.log("resp", resp)
             if (resp.status) {
                 toast(resp.message);
                 listing()
@@ -254,13 +255,13 @@ const Membership_Plans_Listing = () => {
                                                                 <FontAwesomeIcon icon={faEllipsisV} />
                                                             </Dropdown.Toggle>
                                                             <Dropdown.Menu>
-                                                                <Dropdown.Item href={`/membership_plans/edit/${plan._id}`}><span className='edit'>
+                                                                <Dropdown.Item href={`/membership_plans/edit/${plan?._id}`}><span className='edit'>
                                                                     <FontAwesomeIcon icon={faEdit} /></span> Edit
                                                                 </Dropdown.Item>
-                                                                <Dropdown.Item href={`/membership_plans/view/${plan._id}`}>
+                                                                <Dropdown.Item href={`/membership_plans/view/${plan?._id}`}>
                                                                     <span className='view'><FontAwesomeIcon icon={faEye} />
                                                                     </span> View</Dropdown.Item>
-                                                                <Dropdown.Item href="#" onClick={() => deletePlan(plan._id)}>
+                                                                <Dropdown.Item href="#" onClick={() => deletePlan(plan?._id)}>
                                                                     <span className='delete'><FontAwesomeIcon icon={faTrashAlt} /></span> Delete
                                                                 </Dropdown.Item>
                                                             </Dropdown.Menu>

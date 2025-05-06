@@ -37,7 +37,7 @@ const Training_Plans_Listing = () => {
 
     const deletePlan = async (id) => {
         try {
-            let resp = await deleteApi(`admin/trainingPlan/delete/${id}`);
+            let resp = await putApi(`admin/trainingPlan/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

@@ -35,7 +35,7 @@ const Success_Stories_Listing = () => {
 
     const deleteStories = async (id) => {
         try {
-            let resp = await deleteApi(`admin/success_stories/delete/${id}`);
+            let resp = await putApi(`admin/success_stories/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

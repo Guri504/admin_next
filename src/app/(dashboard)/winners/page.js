@@ -35,7 +35,7 @@ const About_Me_Listing = () => {
 
     const deleteWinner = async (id) => {
         try {
-            let resp = await deleteApi(`admin/about_me_winner/delete/${id}`);
+            let resp = await putApi(`admin/about_me_winner/delete/${id}`);
             if (resp.status) {
                 toast(resp.message);
                 listing()

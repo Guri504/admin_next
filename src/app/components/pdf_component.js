@@ -36,7 +36,7 @@ export default function OrderPDF({ order }) {
             const url = URL.createObjectURL(instance.blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `order-${order.orderId}.pdf`;
+            link.download = `order-${order?._id}.pdf`;
             link.click();
         } else {
             alert('PDF is generating... please wait');

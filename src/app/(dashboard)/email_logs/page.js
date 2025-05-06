@@ -7,61 +7,31 @@ import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTime
 import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
-import Link from 'next/link';
-import { checkAdmin, deleteApi, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
-import { toast, ToastContainer } from 'react-toastify';
-import { useRouter } from 'next/router';
 import { UserContext } from '@/app/user_context';
+import { checkAdmin, formateDate, getApi } from '@/helpers';
+import { Router } from 'next/router';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-const Product_Colors_Listing = () => {
-    const { admin, setAdmin } = useContext(UserContext)
+
+
+const Email_Logs_Listing = () => {
     const router = useRouter()
     const [show, setShow] = useState();
-    const [colorList, setColorlist] = useState([]);
-    const [check, setCheck] = useState([])
+    const { admin, setAdmin } = useContext(UserContext)
+    const [logs, setLogs] = useState([]);
 
     const listing = async () => {
         try {
-            let resp = await getApi('admin/products-colors');
+            let resp = await getApi('admin/email-logs');
+            console.log("resp", resp)
             if (resp.status) {
-                setColorlist(resp.data)
+                setLogs(resp.data);
             }
         } catch (error) {
-            console.log(error);
-            toast(resp.message)
-        }
-    }
-
-    const deleteColor = async (id) => {
-        try {
-            let resp = await putApi(`admin/product-color/delete/${id}`);
-            if (resp.status) {
-                toast(resp.message);
-                listing()
-            }
-        } catch (error) {
-            toast(resp.message);
             console.log(error)
         }
     }
-
-    const updateColorStatus = async (id, newStatus) => {
-        try {
-            let resp = await putApi(`admin/product-color/edit/${id}`, {
-                status: newStatus
-            });
-            if (resp.status) {
-                toast("Staus Updated Succesfully");
-                listing();
-            }
-            else {
-                toast.error(resp.message);
-            }
-        } catch (error) {
-            console.log("Error updating status", error);
-            toast.error(resp.message);
-        }
-    };
 
     useEffect(() => {
         listing()
@@ -70,11 +40,9 @@ const Product_Colors_Listing = () => {
     useEffect(() => {
         checkAdmin(admin, setAdmin, router)
     }, [])
-
     return (
         <div className='right_side'>
-            <NavBottom title="Manage Products Category Listing">
-                <Link href={'/products_colors/add'} className='back_btn'>NEW</Link>
+            <NavBottom title="Manage Email Logs">
                 <Dropdown bsPrefix='filter_dropdown' show={show}>
                     <Dropdown.Toggle id="dropdown-basic" onClick={() => setShow(true)}>
                         <span className='icon' ><FontAwesomeIcon icon={faFilter} /></span>
@@ -171,7 +139,7 @@ const Product_Colors_Listing = () => {
                                 <Row>
                                     <Col xxl={8} xl={8} lg={8} md={5} sm={5} xs={12}>
                                         <div className='header_left'>
-                                            <div className='heading'>Here Is Your Product Colors Listing!</div>
+                                            <div className='heading'>Here Is Your Email Logs Listing!</div>
                                         </div>
                                     </Col>
                                     <Col xxl={4} xl={4} lg={4} md={7} sm={7} xs={12}>
@@ -203,7 +171,7 @@ const Product_Colors_Listing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item onClick={() => softDeleteManyApi('products_color', check, listing)}>
+                                                            <Dropdown.Item href="#">
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -219,50 +187,42 @@ const Product_Colors_Listing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, colorList)} /></th>
+                                                <th><Form.Check /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
-                                                <th>Color Title <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
-                                                <th>STATUS <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
+                                                <th>From </th>
+                                                <th>To </th>
+                                                <th>Subject </th>
+                                                <th>SENT <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>CREATED ON <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>ACTIONS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {colorList?.length > 0 && colorList.map((color, i) => (
-                                                <tr key={i}>
-                                                    <td><Form.Check checked={check.includes(color._id)} onChange={() => handleCheck(color._id, setCheck)} /></td>
-                                                    <td>{color?._id.slice(-5)}</td>
-                                                    <td><div className='tab'><Link href={`/products_colors/view/${color?._id}`}>{color?.colorTitle}</Link></div></td>
-                                                    <td>
-                                                        <Form.Group className='form-group'>
-                                                            <Form.Check
-                                                                type="switch"
-                                                                checked={color?.status === 1}
-                                                                onChange={() => updateColorStatus(color?._id, color?.status === 1 ? 0 : 1)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>{color?.created_at}</td>
-                                                    <td>
-                                                        <Dropdown>
-                                                            <Dropdown.Toggle id="dropdown-basic">
-                                                                <FontAwesomeIcon icon={faEllipsisV} />
-                                                            </Dropdown.Toggle>
-                                                            <Dropdown.Menu>
-                                                                <Dropdown.Item href={`/products_colors/edit/${color?._id}`}><span className='edit'>
-                                                                    <FontAwesomeIcon icon={faEdit} /></span> Edit
-                                                                </Dropdown.Item>
-                                                                <Dropdown.Item href={`/products_colors/view/${color?._id}`}>
-                                                                    <span className='view'><FontAwesomeIcon icon={faEye} />
-                                                                    </span> View</Dropdown.Item>
-                                                                <Dropdown.Item href="#" onClick={() => deleteColor(color?._id)}>
-                                                                    <span className='delete'><FontAwesomeIcon icon={faTrashAlt} /></span> Delete
-                                                                </Dropdown.Item>
-                                                            </Dropdown.Menu>
-                                                        </Dropdown>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                            {
+                                                logs?.length > 0 && logs.map((log, i) => {
+                                                    return <tr key={i}>
+                                                        <td><Form.Check /></td>
+                                                        <td className='text-danger'>#{log?._id?.slice(-5)}</td>
+                                                        <td className='text-success'>{log?.from}</td>
+                                                        <td><Link className='text-primary' href={`/email_logs/view/${log?._id}`}>{log?.to}</Link></td>
+                                                        <td>{log?.subject?.slice(0, 11)}...</td>
+                                                        <td>{log?.sent == 1 ? 'True' : 'False'}</td>
+                                                        <td>{formateDate(log?.created_at)}</td>
+                                                        <td>
+                                                            <Dropdown>
+                                                                <Dropdown.Toggle id="dropdown-basic">
+                                                                    <FontAwesomeIcon icon={faEllipsisV} />
+                                                                </Dropdown.Toggle>
+                                                                <Dropdown.Menu>
+                                                                    <Dropdown.Item href={`/email_logs/view/${log?._id}`}>
+                                                                        <span className='view'><FontAwesomeIcon icon={faEye} />
+                                                                        </span> View</Dropdown.Item>
+                                                                </Dropdown.Menu>
+                                                            </Dropdown>
+                                                        </td>
+                                                    </tr>
+                                                })
+                                            }
                                         </tbody>
                                     </Table>
                                 </div>
@@ -271,19 +231,8 @@ const Product_Colors_Listing = () => {
                     </Col>
                 </Row>
             </div>
-            <ToastContainer
-                closeButton={true}
-                closeOnClick={true}
-                newestOnTop={true}
-                stacked={true}
-                limit={5}
-                autoClose={1500}
-                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
-                position='bottom-right'
-                theme='colored'
-            />
         </div>
     )
 }
 
-export default Product_Colors_Listing;
+export default Email_Logs_Listing;

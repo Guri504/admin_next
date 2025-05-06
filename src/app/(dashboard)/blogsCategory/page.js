@@ -25,7 +25,7 @@ const BlogCategoryListing = () => {
 
     const deleteCategory = async (id) => {
         try {
-            let resp = await deleteApi(`admin/blogsCategory/delete/${id}`);
+            let resp = await putApi(`admin/blogsCategory/delete/${id}`);
             if (resp.status) {
                 toast('Category Deleted Successfully')
                 catData();
