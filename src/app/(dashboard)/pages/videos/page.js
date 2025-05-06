@@ -1,80 +1,68 @@
 "use client";
 import MultiSelect from '@/app/components/multiSelect';
-const Select = dynamic(() => import('react-select'), {
-    ssr: false,
-});
-import dynamic from 'next/dynamic';
-import '../../../../../../public/sass/pages/multiSelect.scss';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Col, Form, InputGroup, ProgressBar, Row } from 'react-bootstrap';
-import '../../../../../../public/sass/pages/add.scss';
-import '../../../../../../public/sass/pages/homePage.scss';
+import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import '../../../../../public/sass/pages/add.scss';
+import '../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, faTimes, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import axios from 'axios';
+import { checkAdmin, getApi, postApi, putApi, uploadClick, uploadVideo } from '@/helpers';
+import CustomEditor from '@/app/components/custom_editor';
 import { toast, ToastContainer } from 'react-toastify';
-import { checkAdmin, fetchCategories, getApi, postApi, putApi, toBase64, uploadClick, uploadVideo } from '../../../../../helpers'
-import Image from 'next/image';
-import { ClientPageRoot } from 'next/dist/client/components/client-page';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
 
 
-
-const EditVideo = () => {
+const Video_Page_Titles = () => {
     const { admin, setAdmin } = useContext(UserContext)
-    const router = useRouter();
+    const router = useRouter()
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
-    const [video, setVideo] = useState(null);
-    const [viewData, setViewData] = useState({});
-    const { id } = useParams()
+    const [oldData, setOldData] = useState({})
+    const [video, setVideo] = useState(null)
+    const [videoUrl, setVideoUrl] = useState('')
 
-    const videoData = async () => {
+    const contentUpdate = async (e) => {
+        e.preventDefault();
+        const formdata = new FormData(e.target);
+        const finalData = Object.fromEntries(formdata.entries())
+        finalData.video = video;
         try {
-            let resp = await getApi(`admin/video/view/${id}`)
-            console.log("resp", resp)
+            let resp = await putApi(`admin/update-page-content/videos`, finalData)
+            console.log("resp", resp);
             if (resp.status) {
-                setViewData(resp.data)
-                setVideo(resp.data.video)
+                toast("Data Updated Successfully")
+                console.log(resp.message)
             }
-        }
-        catch (error) {
-            toast.error("Not able to fetch Video detail")
+        } catch (error) {
+            console.log(error)
         }
     }
 
-
-    const UpdateSubmit = async (e) => {
-        e.preventDefault();
+    const viewContent = async () => {
         try {
-            const formData = new FormData(e.target);
-            const finalData = Object.fromEntries(formData.entries());
-            finalData.video = video
-            let resp = await putApi(`admin/video/edit/${id}`, finalData);
+            let resp = await getApi('admin/get-page-content/videos');
             if (resp.status) {
-                toast('Data Updated Successfully')
-                setTimeout(() => router.push('/videos'), 1500)
+                setOldData(resp.data);
+                setVideo(resp.data.video)
             }
         } catch (error) {
-            console.log("error", error)
+            console.log(error)
         }
+    }
+    const onFileChange = (e) => {
+        uploadVideo(e, setVideo, setVideoUrl)
+        e.currentTarget.value = ''
+    };
+
+    const handleDelete = () => {
+        setVideo(null)
     }
 
     useEffect(() => {
-        videoData()
+        viewContent()
     }, [])
-
-    const onFileChange = (e) => {
-        uploadVideo(e, setVideo)
-        e.currentTarget.value = "";
-    }
-
-    const handleDelete = () => {
-        console.log("Delete button clicked")
-        setVideo(null)
-    }
 
     useEffect(() => {
         checkAdmin(admin, setAdmin, router)
@@ -82,28 +70,38 @@ const EditVideo = () => {
 
     return (
         <div className='right_side'>
-            <NavBottom backUrl="/videos" />
+            <NavBottom backUrl="#" />
             <div className="right_area top_spacing">
                 <Card>
                     <div className='card-header'>
                         <div className='header_left'>
                             <div className='heading'>
-                                Create New Video Here
+                                Update Your Titles/Headings
                             </div>
                         </div>
                     </div>
                     <div className='card-body'>
-                        <Form onSubmit={UpdateSubmit}>
+                        <Form onSubmit={contentUpdate}>
                             <Row>
                                 <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
-                                    <Form.Group className='form-group' controlId='videoTitle'>
-                                        <Form.Label>Title <span>*</span></Form.Label>
+                                    <Form.Group className='form-group'>
+                                        <Form.Label>Back Main Heading <span>*</span></Form.Label>
                                         <Form.Control
-                                            name='title'
                                             type="text"
-                                            placeholder="Enter Video Title"
-                                            defaultValue={viewData?.title}
-                                            required
+                                            placeholder="Enter heading Title"
+                                            name='mainTitle'
+                                            defaultValue={oldData?.mainTitle}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
+                                    <Form.Group className='form-group'>
+                                        <Form.Label>Videos Main Heading <span>*</span></Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Enter Video Heading"
+                                            name='videoHeading'
+                                            defaultValue={oldData?.videoHeading}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -114,14 +112,15 @@ const EditVideo = () => {
                                             name='url'
                                             type="url"
                                             placeholder="Enter Video URL"
-                                            defaultValue={viewData?.url}
+                                            value={videoUrl}
+                                            onChange={(e) => { setVideoUrl(e.target.value), e.target.value ? setVideo(null) : '' }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}><p className='mb-3' style={{ fontSize: '20px', fontWeight: '500' }}>OR</p></Col>
                                 <Col xxl={6} xl={6} lg={6} md={6} sm={12} xs={12}>
                                     <Form.Group className='form-group'>
-                                        <Form.Label>Video <span>*</span></Form.Label>
+                                        <Form.Label>Main Video <span>*</span></Form.Label>
                                         <div className='d-flex align-items-center gap-3 mb-2'>
                                             <Form.Label htmlFor="file-upload" className='upload m-0' >Upload Video</Form.Label>
                                             <Form.Control
@@ -169,21 +168,19 @@ const EditVideo = () => {
                                         />
                                     </Form.Group>
 
-                                    {
-                                        show && <Form.Group className='form-group form-group2'>
-                                            <InputGroup>
-                                                <Form.Control
-                                                    placeholder="credentials"
-                                                    type={showPass ? "text" : "password"}
-                                                    className='from-control2'
-                                                />
-                                                <InputGroup.Text id="inputGroupPrepend" onClick={() => setShowPass(!showPass)}>
-                                                    <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} />
-                                                </InputGroup.Text>
-                                                <InputGroup.Text id="inputGroupPrepend"><FontAwesomeIcon icon={faRedo} /></InputGroup.Text>
-                                            </InputGroup>
-                                        </Form.Group>
-                                    }
+                                    {show && <Form.Group className='form-group form-group2'>
+                                        <InputGroup>
+                                            <Form.Control
+                                                placeholder="credentials"
+                                                type={showPass ? "text" : "password"}
+                                                className='from-control2'
+                                            />
+                                            <InputGroup.Text id="inputGroupPrepend" onClick={() => setShowPass(!showPass)}>
+                                                <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} />
+                                            </InputGroup.Text>
+                                            <InputGroup.Text id="inputGroupPrepend"><FontAwesomeIcon icon={faRedo} /></InputGroup.Text>
+                                        </InputGroup>
+                                    </Form.Group>}
                                 </Col>
                                 <div className='btn_area'>
                                     <Button type="submit" >Submit</Button>
@@ -208,4 +205,4 @@ const EditVideo = () => {
     )
 }
 
-export default EditVideo;
+export default Video_Page_Titles;

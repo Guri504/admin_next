@@ -5,7 +5,7 @@ const Select = dynamic(() => import('react-select'), {
 });
 import dynamic from 'next/dynamic';
 import '../../../../../public/sass/pages/multiSelect.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, ProgressBar, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';
@@ -14,22 +14,28 @@ import { faEye, faEyeSlash, faRedo, faTimes, } from '@fortawesome/free-solid-svg
 import NavBottom from '@/app/components/navBottom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
-import { fetchCategories, getApi, postApi, toBase64, uploadClick, uploadVideo } from '../../../../helpers'
+import { checkAdmin, fetchCategories, getApi, postApi, toBase64, uploadClick, uploadVideo } from '../../../../helpers'
 import Image from 'next/image';
 import { ClientPageRoot } from 'next/dist/client/components/client-page';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 
 const AddVideo = () => {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [video, setVideo] = useState(null);
+    const [videoUrl, setVideoUrl] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const formData = new FormData(e.target);
             const finalData = Object.fromEntries(formData.entries());
+            finalData.videoThumbnail = imgData.original
             finalData.video = video
             let resp = await postApi('admin/video/add', finalData);
             if (resp.status) {
@@ -42,7 +48,7 @@ const AddVideo = () => {
     }
 
     const onFileChange = (e) => {
-        uploadVideo(e, setVideo)
+        uploadVideo(e, setVideo, setVideoUrl)
         e.currentTarget.value = "";
     }
 
@@ -50,6 +56,10 @@ const AddVideo = () => {
         console.log("Delete button clicked")
         setVideo(null)
     }
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>
@@ -84,6 +94,8 @@ const AddVideo = () => {
                                             name='url'
                                             type="url"
                                             placeholder="Enter Video URL"
+                                            value={videoUrl}
+                                            onChange={(e) => { setVideoUrl(e.target.value), e.target.value ? setVideo(null) : '' }}
                                         />
                                     </Form.Group>
                                 </Col>

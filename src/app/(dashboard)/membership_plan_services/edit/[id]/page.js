@@ -1,20 +1,22 @@
 "use client";
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../../public/sass/pages/add.scss';
 import '../../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi, postApi, putApi } from '@/helpers';
+import { checkAdmin, getApi, postApi, putApi } from '@/helpers';
 import { useParams, useRouter } from 'next/navigation';
 import CustomEditor from '@/app/components/custom_editor';
+import { UserContext } from '@/app/user_context';
 
 
 const Membership_Plan_Service_Edit = () => {
-    const {id} = useParams()
+    const { id } = useParams()
     const router = useRouter()
+    const { admin, setAdmin } = useContext(UserContext)
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [serviceData, setServiceData] = useState({})
@@ -24,7 +26,7 @@ const Membership_Plan_Service_Edit = () => {
         try {
             let resp = await getApi(`admin/membershipPlanService/view/${id}`);
             console.log(resp)
-            if(resp.status){
+            if (resp.status) {
                 setServiceData(resp.data);
                 setMessage(resp.message);
             }
@@ -53,6 +55,10 @@ const Membership_Plan_Service_Edit = () => {
     useEffect(() => {
         getService()
     }, [id])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>

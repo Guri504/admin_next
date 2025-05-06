@@ -2,17 +2,19 @@
 import '../../../../../../public/sass/pages/homePage.scss';
 import '../../../../../../public/sass/pages/table.scss';
 import { Card, Col, Dropdown, Form, Row, Table } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFilter, faStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
-import { getApi } from '@/helpers';
+import { checkAdmin, getApi } from '@/helpers';
+import { UserContext } from '@/app/user_context';
 
 
 const CategoryViewPage = () => {
-
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const params = useParams();
 
     const [categoryData, setCategoryData] = useState({});
@@ -33,6 +35,10 @@ const CategoryViewPage = () => {
     useEffect(() => {
         catData()
         console.log("===", categoryData)
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     const [show, setShow] = useState(false);

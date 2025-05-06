@@ -4,14 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
 import Link from 'next/link';
-import { deleteApi, getApi, putApi } from '@/helpers';
+import { checkAdmin, deleteApi, getApi, putApi } from '@/helpers';
 import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 const Products_Listing = () => {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState();
     const [productList, setProductlist] = useState([]);
     const [category, setCategory] = useState([])
@@ -29,7 +33,7 @@ const Products_Listing = () => {
             console.log(error)
         }
     }
-    
+
     const listing = async () => {
         try {
             let resp = await getApi('admin/products');
@@ -41,11 +45,11 @@ const Products_Listing = () => {
             toast(resp.message)
         }
     }
-    
+
     const deleteProduct = async (id) => {
         try {
             let resp = await deleteApi(`admin/product/delete/${id}`);
-            if(resp.status){
+            if (resp.status) {
                 toast(resp.message);
                 listing()
             }
@@ -54,17 +58,17 @@ const Products_Listing = () => {
             console.log(error)
         }
     }
-    
-    const updateProductStatus = async ( id, newStatus) => {
+
+    const updateProductStatus = async (id, newStatus) => {
         try {
             let resp = await putApi(`admin/product/edit/${id}`, {
                 status: newStatus
             });
-            if (resp.status){
+            if (resp.status) {
                 toast("Staus Updated Succesfully");
                 listing();
             }
-            else { 
+            else {
                 toast.error(resp.message);
             }
         } catch (error) {
@@ -80,6 +84,10 @@ const Products_Listing = () => {
     useEffect(() => {
         listing()
     }, [category])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>
@@ -249,10 +257,10 @@ const Products_Listing = () => {
                                                     ))}</td>
                                                     <td>
                                                         <Form.Group className='form-group'>
-                                                            <Form.Check 
-                                                            type="switch" 
-                                                            checked={product?.status === 1}
-                                                            onChange={() => updateProductStatus(product?._id, product?.status === 1 ? 0 : 1)}
+                                                            <Form.Check
+                                                                type="switch"
+                                                                checked={product?.status === 1}
+                                                                onChange={() => updateProductStatus(product?._id, product?.status === 1 ? 0 : 1)}
                                                             />
                                                         </Form.Group>
                                                     </td>

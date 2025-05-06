@@ -1,41 +1,27 @@
 "use client";
-import { Card, Col, Dropdown, Form, InputGroup, Row, Table } from 'react-bootstrap';
+import { Badge, Card, Col, Dropdown, Form, InputGroup, Row, Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
 import Link from 'next/link';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { deleteApi, getApi, putApi } from '@/helpers';
+import { checkAdmin, deleteApi, deleteManyApi, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 
 const BlogCategoryListing = () => {
-    
+
     const [check, setCheck] = useState([])
-    
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [categoryData, setCategoryData] = useState([])
-
-    function handleMultiCheck(e) {
-        if(check.length === categoryData.length || !e.target.checked){  
-            setCheck([])
-        }
-        else{
-            setCheck(categoryData.map((_, index) => index))
-        }
-    }
-
-    function handleCheck(id) {
-        setCheck((prevChecked) =>
-            prevChecked.includes(id)
-                ? prevChecked.filter((checkedId) => checkedId !== id)
-                : [...prevChecked, id]
-        )
-    }
 
     const deleteCategory = async (id) => {
         try {
@@ -56,11 +42,9 @@ const BlogCategoryListing = () => {
         }
     }
 
-    let catData = async (
-    ) => {
+    let catData = async () => {
         try {
             let resp = await getApi('admin/blogsCategory')
-            console.log(resp)
             if (resp.status) {
                 setCategoryData(resp.message)
             }
@@ -71,12 +55,12 @@ const BlogCategoryListing = () => {
 
     const updateCategoryStatus = async (id, newStatus) => {
         try {
-            let resp = await putApi(`admin/blogsCategory/edit/${id}`, { status: newStatus});
-            if (resp.status){
+            let resp = await putApi(`admin/blogsCategory/edit/${id}`, { status: newStatus });
+            if (resp.status) {
                 toast.success("Status Updated Successfully");
                 catData();
             }
-            else{
+            else {
                 toast.error("Error in updating status");
             }
         } catch (error) {
@@ -90,8 +74,8 @@ const BlogCategoryListing = () => {
     }, [])
 
     useEffect(() => {
-        console.log(check)
-    }, [check])
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     const [show, setShow] = useState();
 
@@ -227,7 +211,7 @@ const BlogCategoryListing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item href="#">
+                                                            <Dropdown.Item onClick={() => softDeleteManyApi('blogs_category', check, catData)}>
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -243,7 +227,7 @@ const BlogCategoryListing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check onChange={handleMultiCheck} /></th>
+                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, categoryData)} /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>TITLE <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>CREATED BY <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
@@ -256,16 +240,16 @@ const BlogCategoryListing = () => {
                                             {categoryData?.length > 0 ? categoryData.map((item, index) => (
 
                                                 <tr key={index}>
-                                                    <td><Form.Check checked={check.includes(index)} onChange={() => handleCheck(index)} /></td>
+                                                    <td><Form.Check checked={check.includes(item?._id)} onChange={() => handleCheck(item?._id, setCheck)} /></td>
                                                     <td>{item._id.slice(-5)}</td>
-                                                    <td><div className='tab'><Link href={`/blogsCategory/view/${item._id}`} color="white">{item.blogCategoryTitle}</Link></div></td>
+                                                    <td><Link href={`/blogsCategory/view/${item._id}`} color="white"><Badge bg="secondary">{item.blogCategoryTitle}</Badge></Link></td>
                                                     <td>{item.blogCategoryCreatorName}</td>
                                                     <td>
                                                         <Form.Group className='form-group'>
-                                                            <Form.Check 
-                                                            type="switch"
-                                                            checked={item.status === 1}
-                                                            onChange={() => updateCategoryStatus(item._id, item.status === 1 ? 0 : 1)}
+                                                            <Form.Check
+                                                                type="switch"
+                                                                checked={item.status === 1}
+                                                                onChange={() => updateCategoryStatus(item._id, item.status === 1 ? 0 : 1)}
                                                             />
                                                         </Form.Group>
                                                     </td>

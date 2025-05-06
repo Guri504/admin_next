@@ -1,18 +1,21 @@
 "use client";
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { postApi } from '@/helpers';
+import { checkAdmin, postApi } from '@/helpers';
 import CustomEditor from '@/app/components/custom_editor';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Membership_Plan_Service_Add = () => {
-
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [message, setMessage] = useState('')
@@ -35,6 +38,10 @@ const Membership_Plan_Service_Add = () => {
             setMessage(resp.message)
         }
     }
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>

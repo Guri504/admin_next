@@ -13,7 +13,7 @@ const NavBottom = (props) => {
                         <div className='title'>
                             {props.title}
                         </div>
-                        {props.paidChip ? <span className='chip'>Paid</span> : ''}
+                        {props.paidChip ? <span className='chip'>{props.paidChip}</span> : ''}
                         {props.pickUpChip ? <span className='chip pick'>Ready To Pickup</span> : ''}
                         {props.created ? <div className='date'>{props.created}</div> : ''}
                     </div>

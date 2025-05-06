@@ -4,19 +4,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
 import Link from 'next/link';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
-import { deleteApi, fetchCategories, getApi, putApi } from '@/helpers';
+import { checkAdmin, deleteApi, fetchCategories, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 
 const VideosListing = () => {
     const [show, setShow] = useState();
-    const [videoData, setVideoData] = useState([])
+    const [videoData, setVideoData] = useState([]);
+    const [check, setCheck] = useState([]);
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
 
     const getListing = async () => {
         try {
@@ -41,8 +46,24 @@ const VideosListing = () => {
         }
     }
 
+    const deleteData = async (id) => {
+        try {
+            let resp = await putApi(`admin/video/soft-delete/${id}`);
+            if (resp.status) {
+                toast('Deleted Successfully')
+                getListing()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         getListing()
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     return (
@@ -178,7 +199,7 @@ const VideosListing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item href="#">
+                                                            <Dropdown.Item onClick={() => softDeleteManyApi('videos', check, getListing)}>
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -194,7 +215,7 @@ const VideosListing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check /></th>
+                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, videoData)} /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>TITLE <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>STATUS <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
@@ -206,7 +227,7 @@ const VideosListing = () => {
                                             {
                                                 videoData?.length > 0 && videoData.map((video, i) => {
                                                     return <tr key={i}>
-                                                        <td><Form.Check /></td>
+                                                        <td><Form.Check checked={check.includes(video?._id)} onChange={() => handleCheck(video._id, setCheck)} /></td>
                                                         <td className='text-danger'>{video?._id?.slice(-5)}</td>
                                                         <td><div className='tab tab-green' ><Link href={`/videos/view/${video?._id}`}>{video?.title}</Link></div></td>
                                                         <td>
@@ -231,7 +252,7 @@ const VideosListing = () => {
                                                                     <Dropdown.Item href={`/videos/view/${video?._id}`}>
                                                                         <span className='view'><FontAwesomeIcon icon={faEye} />
                                                                         </span> View</Dropdown.Item>
-                                                                    <Dropdown.Item href="#">
+                                                                    <Dropdown.Item href="#" onClick={() => deleteData(video?._id)}>
                                                                         <span className='delete' >
                                                                             <FontAwesomeIcon icon={faTrashAlt} />
                                                                         </span> Delete

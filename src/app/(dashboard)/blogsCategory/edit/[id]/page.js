@@ -5,7 +5,7 @@ const Select = dynamic(() => import('react-select'), {
 });
 import dynamic from 'next/dynamic';
 import '../../../../../../public/sass/pages/multiSelect.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../../public/sass/pages/add.scss';
 import '../../../../../../public/sass/pages/homePage.scss';
@@ -15,12 +15,14 @@ import NavBottom from '@/app/components/navBottom';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
-import { getApi, putApi } from '@/helpers';
+import { checkAdmin, getApi, putApi } from '@/helpers';
+import { UserContext } from '@/app/user_context';
 
 
 const EditBLogCategory = () => {
 
     const router = useRouter();
+    const { admin, setAdmin } = useContext(UserContext)
 
     const params = useParams();
 
@@ -93,6 +95,10 @@ const EditBLogCategory = () => {
         catData()
         console.log("===", categoryData)
     }, [params.id])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);

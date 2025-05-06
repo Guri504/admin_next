@@ -5,7 +5,7 @@ const Select = dynamic(() => import('react-select'), {
 });
 import dynamic from 'next/dynamic';
 import '../../../../../public/sass/pages/multiSelect.scss';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';
@@ -14,11 +14,14 @@ import { faEye, faEyeSlash, faRedo, faXmark, } from '@fortawesome/free-solid-svg
 import NavBottom from '@/app/components/navBottom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { postApi } from '@/helpers';
+import { checkAdmin, postApi } from '@/helpers';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const AddBLogCategory = () => {
-
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [categoryData, setCategoryData] = useState({
         blogCategoryTitle: "",
         blogCategoryDesc: "",
@@ -57,6 +60,10 @@ const AddBLogCategory = () => {
         }));
     }
 
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
+
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
 
@@ -89,20 +96,20 @@ const AddBLogCategory = () => {
                                             />
                                         </Form.Group>
                                     </Col>
-                                     <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
-                                    <Form.Group className='form-group'>
-                                        <Form.Label>Crerator Name <span>*</span></Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name='blogCategoryCreatorName'
-                                            placeholder="Enter Creator Name"
-                                            value={categoryData.blogCategoryCreatorName}
-                                            onChange={categoryChange}
-                                            required
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                {/* <Col xxl={6} xl={6} lg={6} md={6} sm={12} xs={12}>
+                                    <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
+                                        <Form.Group className='form-group'>
+                                            <Form.Label>Crerator Name <span>*</span></Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name='blogCategoryCreatorName'
+                                                placeholder="Enter Creator Name"
+                                                value={categoryData.blogCategoryCreatorName}
+                                                onChange={categoryChange}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    {/* <Col xxl={6} xl={6} lg={6} md={6} sm={12} xs={12}>
                                     <Form.Group className='form-group'>
                                         <Form.Label>Sub Heading<span>*</span></Form.Label>
                                         <Form.Control
@@ -205,7 +212,7 @@ const AddBLogCategory = () => {
                 stacked={true}
                 limit={5}
                 autoClose={2000}
-                toastStyle={{ backgroundColor: '#696cff', color:'white' }}
+                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
                 position='bottom-right'
                 theme='colored'
             />

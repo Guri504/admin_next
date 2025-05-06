@@ -4,16 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
 import Link from 'next/link';
-import { deleteApi, getApi, putApi } from '@/helpers';
+import { checkAdmin, deleteApi, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
 import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 const Training_Plan_Service_Listing = () => {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState();
     const [serviceList, setServicelist] = useState([]);
+    const [check, setCheck] = useState([]);
 
     const listing = async () => {
         try {
@@ -33,7 +38,7 @@ const Training_Plan_Service_Listing = () => {
     const deleteService = async (id) => {
         try {
             let resp = await deleteApi(`admin/trainingPlanService/delete/${id}`);
-            if(resp.status){
+            if (resp.status) {
                 toast(resp.message);
                 listing()
             }
@@ -43,16 +48,16 @@ const Training_Plan_Service_Listing = () => {
         }
     }
 
-    const updateServiceStatus = async ( id, newStatus) => {
+    const updateServiceStatus = async (id, newStatus) => {
         try {
             let resp = await putApi(`admin/trainingPlanService/edit/${id}`, {
                 status: newStatus
             });
-            if (resp.status){
+            if (resp.status) {
                 toast("Staus Updated Succesfully");
                 listing();
             }
-            else { 
+            else {
                 toast.error(resp.message);
             }
         } catch (error) {
@@ -63,6 +68,10 @@ const Training_Plan_Service_Listing = () => {
 
     useEffect(() => {
         listing()
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     return (
@@ -197,7 +206,7 @@ const Training_Plan_Service_Listing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item href="#">
+                                                            <Dropdown.Item onClick={() => softDeleteManyApi('training_plan_services', check, listing)}>
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -213,7 +222,7 @@ const Training_Plan_Service_Listing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check /></th>
+                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, serviceList)} /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>Title <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>STATUS <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
@@ -224,15 +233,15 @@ const Training_Plan_Service_Listing = () => {
                                         <tbody>
                                             {serviceList?.length > 0 && serviceList.map((service, i) => (
                                                 <tr key={i}>
-                                                    <td><Form.Check /></td>
+                                                    <td><Form.Check checked={check.includes(service._id)} onChange={() => handleCheck(service._id, setCheck)} /></td>
                                                     <td>{service._id.slice(-5)}</td>
                                                     <td><div className='tab'><Link href={`/training_plan_services/view/${service._id}`}>{service.title}</Link></div></td>
                                                     <td>
                                                         <Form.Group className='form-group'>
-                                                            <Form.Check 
-                                                            type="switch" 
-                                                            checked={service.status === 1}
-                                                            onChange={() => updateServiceStatus(service._id, service.status === 1 ? 0 : 1)}
+                                                            <Form.Check
+                                                                type="switch"
+                                                                checked={service.status === 1}
+                                                                onChange={() => updateServiceStatus(service._id, service.status === 1 ? 0 : 1)}
                                                             />
                                                         </Form.Group>
                                                     </td>

@@ -223,8 +223,8 @@ export default function TrashList({ type }) {
                                                     <td><Form.Check /></td>
                                                     <td className='text-danger'>#{item?._id?.slice(-5)}</td>
                                                     <td><div className='tab'>{item?.name || item?.title || item?.type ||
-                                                        item?.productName || item?.color?.title + ',' + item?.size?.title || item?.categoryTitle || item?.colorTitle ||
-                                                        item?.sizeTitle || item?.blogCategoryTitle || item?.firstName + ' ' + item?.lastName}</div></td>
+                                                        item?.productName || item?.blogCategoryTitle || item?.categoryTitle || item?.colorTitle ||
+                                                        item?.sizeTitle || item?.color?.title + ',' + item?.size?.title || item?.firstName + ' ' + item?.lastName}</div></td>
                                                     <td>{item?.deleted_at}</td>
                                                     <td><Link href={'#'} className='tab tab-green' onClick={(e) => undoDelete(e, item?._id)}>Restore</Link></td>
                                                     <td><Link href={'#'} className='tab tab-red' onClick={(e) => deletePermanently(e, item?._id)}>Permanent Delete</Link></td>

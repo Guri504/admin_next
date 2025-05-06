@@ -2,19 +2,22 @@
 import dynamic from 'next/dynamic';
 const CustomEditor = dynamic(() => import('@/app/components/custom_editor'), { ssr: false });
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, faTimes, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { postApi, uploadClick } from '@/helpers';
+import { checkAdmin, postApi, uploadClick } from '@/helpers';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Winners_Add = () => {
-
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [imgData, setImgData] = useState({});
@@ -28,7 +31,7 @@ const Winners_Add = () => {
         finalData.image2 = imgData2
 
         console.log(finalData)
-        
+
         try {
             let resp = await postApi('admin/about_me_winner/add', finalData)
             console.log("resp", resp);
@@ -61,6 +64,10 @@ const Winners_Add = () => {
     const handleDelete2 = () => {
         setImgData2({})
     }
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>

@@ -2,10 +2,19 @@
 // import TrashList from '../TrashList';
 
 import TrashList from "@/app/components/trashList";
-import { useParams } from "next/navigation";
+import { UserContext } from "@/app/user_context";
+import { checkAdmin } from "@/helpers";
+import { useParams, useRouter } from "next/navigation";
+import { useContext } from "react";
 
 export default function TrashTypePage() {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const { type } = useParams();
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
     return (
         <>
             <TrashList type={type} />

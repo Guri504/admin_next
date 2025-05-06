@@ -2,19 +2,22 @@
 import '../../../../../../public/sass/pages/homePage.scss';
 import '../../../../../../public/sass/pages/table.scss';
 import { Card, Col, Dropdown, Form, Row, Table } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFilter, faStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
 import axios from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
-import { fetchCategories, getApi } from '@/helpers';
+import { checkAdmin, fetchCategories, getApi } from '@/helpers';
+import { UserContext } from '@/app/user_context';
 
 
 const BlogView = () => {
 
     const params = useParams()
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
 
     const [category, setCategory] = useState([])
 
@@ -46,7 +49,9 @@ const BlogView = () => {
         console.log("View Data", viewData)
     }, [category])
 
-
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     const [show, setShow] = useState(false);
 

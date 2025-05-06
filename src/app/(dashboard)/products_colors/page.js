@@ -4,16 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
 import Link from 'next/link';
-import { deleteApi, getApi, putApi } from '@/helpers';
+import { checkAdmin, deleteApi, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
 import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/router';
+import { UserContext } from '@/app/user_context';
 
 const Product_Colors_Listing = () => {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState();
     const [colorList, setColorlist] = useState([]);
+    const [check, setCheck] = useState([])
 
     const listing = async () => {
         try {
@@ -30,7 +35,7 @@ const Product_Colors_Listing = () => {
     const deleteColor = async (id) => {
         try {
             let resp = await deleteApi(`admin/product-color/delete/${id}`);
-            if(resp.status){
+            if (resp.status) {
                 toast(resp.message);
                 listing()
             }
@@ -40,16 +45,16 @@ const Product_Colors_Listing = () => {
         }
     }
 
-    const updateColorStatus = async ( id, newStatus) => {
+    const updateColorStatus = async (id, newStatus) => {
         try {
             let resp = await putApi(`admin/product-color/edit/${id}`, {
                 status: newStatus
             });
-            if (resp.status){
+            if (resp.status) {
                 toast("Staus Updated Succesfully");
                 listing();
             }
-            else { 
+            else {
                 toast.error(resp.message);
             }
         } catch (error) {
@@ -60,6 +65,10 @@ const Product_Colors_Listing = () => {
 
     useEffect(() => {
         listing()
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     return (
@@ -194,7 +203,7 @@ const Product_Colors_Listing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item href="#">
+                                                            <Dropdown.Item onClick={() => softDeleteManyApi('products_color', check, listing)}>
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -210,7 +219,7 @@ const Product_Colors_Listing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check /></th>
+                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, colorList)} /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>Color Title <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>STATUS <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
@@ -221,15 +230,15 @@ const Product_Colors_Listing = () => {
                                         <tbody>
                                             {colorList?.length > 0 && colorList.map((color, i) => (
                                                 <tr key={i}>
-                                                    <td><Form.Check /></td>
+                                                    <td><Form.Check checked={check.includes(color._id)} onChange={() => handleCheck(color._id, setCheck)} /></td>
                                                     <td>{color?._id.slice(-5)}</td>
                                                     <td><div className='tab'><Link href={`/products_colors/view/${color?._id}`}>{color?.colorTitle}</Link></div></td>
                                                     <td>
                                                         <Form.Group className='form-group'>
-                                                            <Form.Check 
-                                                            type="switch" 
-                                                            checked={color?.status === 1}
-                                                            onChange={() => updateColorStatus(color?._id, color?.status === 1 ? 0 : 1)}
+                                                            <Form.Check
+                                                                type="switch"
+                                                                checked={color?.status === 1}
+                                                                onChange={() => updateColorStatus(color?._id, color?.status === 1 ? 0 : 1)}
                                                             />
                                                         </Form.Group>
                                                     </td>

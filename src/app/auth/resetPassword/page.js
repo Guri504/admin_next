@@ -1,14 +1,35 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Card, Form, InputGroup } from 'react-bootstrap';
 import '../../../../public/sass/pages/auth.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { postApi } from '@/helpers';
+import { UserContext } from '@/app/user_context';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
 const ResetPassword = () => {
+    const router = useRouter()
     const [showPass, setShowPass] = useState(false);
     const [showPass2, setShowPass2] = useState(false);
+    const tokenFromLink = useSearchParams().get('token')
+    console.log("object", tokenFromLink)
+
+    const resetPassword = async (e) => {
+        e.preventDefault();
+        try {
+            let formdata = new FormData(e.target);
+            let finalData = Object.fromEntries(formdata.entries());
+            let resp = await postApi(`admin/reset-password/${tokenFromLink}`, finalData);
+            console.log("resp", resp)
+            if (resp.status) {
+                router.push('/auth/login')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className='auth_page'>
@@ -19,11 +40,12 @@ const ResetPassword = () => {
                 <div className='card-body'>
                     <h5>Reset Password</h5>
                     <div className='desc'>Please sign-in to your account and start the adventure</div>
-                    <Form>
+                    <Form onSubmit={resetPassword}>
                         <Form.Group className='form-group'>
                             <Form.Label>Password</Form.Label>
                             <InputGroup>
                                 <Form.Control
+                                    name='password'
                                     required
                                     type={showPass ? "text" : "password"}
                                     placeholder="Enter Password"
@@ -38,6 +60,7 @@ const ResetPassword = () => {
                             <InputGroup>
                                 <Form.Control
                                     required
+                                    name='confirmPassword'
                                     type={showPass2 ? "text" : "password"}
                                     placeholder="Enter Confirm Password"
                                 />
@@ -48,7 +71,7 @@ const ResetPassword = () => {
                         </Form.Group>
                         <div className='btn_area'>
                             <Button type="submit">Sign in</Button>
-                            <Link href="#" className='back'><span className='back_arrow'><FontAwesomeIcon icon={faChevronLeft} /></span> Back to login</Link>
+                            <Link href="/auth/login" className='back'><span className='back_arrow'></span> Back to login</Link>
                         </div>
                     </Form>
                 </div>

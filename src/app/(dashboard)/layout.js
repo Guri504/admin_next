@@ -4,6 +4,7 @@ import "../../../public/sass/pages/adminLayout.scss";
 import NavTop from "../components/navTop";
 import SideBar from "../components/sideBar";
 import { useState } from "react";
+import UserProvider from "../user_context";
 
 
 export default function DashboardLayout({ children }) {
@@ -15,19 +16,21 @@ export default function DashboardLayout({ children }) {
 
 
     return (
-        <div className='layout_main'>
-            <div className={`overlay ${isSidebarOpen ? "active" : ""}`} onClick={toggleSidebar}></div>
-            <div className={`left_main ${isSidebarOpen ? 'open' : 'closed'}`}>
-                <SideBar
-                    isSidebarOpen={isSidebarOpen}
-                    toggleSidebar={toggleSidebar}
-                />
+        <UserProvider>
+            <div className='layout_main'>
+                <div className={`overlay ${isSidebarOpen ? "active" : ""}`} onClick={toggleSidebar}></div>
+                <div className={`left_main ${isSidebarOpen ? 'open' : 'closed'}`}>
+                    <SideBar
+                        isSidebarOpen={isSidebarOpen}
+                        toggleSidebar={toggleSidebar}
+                    />
+                </div>
+                <div className='right_main'>
+                    <NavTop toggleSidebar={toggleSidebar} />
+                    {children}
+                </div>
             </div>
-            <div className='right_main'>
-                <NavTop toggleSidebar={toggleSidebar} />
-                {children}
-            </div>
-        </div>
+        </UserProvider>
     );
 }
 

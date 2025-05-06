@@ -1,9 +1,16 @@
+'use client'
 import axios from "axios";
+import { toast } from "react-toastify";
+import * as XLSX from 'xlsx';
 
 // GET API 
 const getApi = async (url) => {
+    let storedAdmin = JSON.parse(localStorage.getItem("admin"));
+    let token = storedAdmin?.token;
     try {
-        let resp = await axios.get(process.env.url + '' + url);
+        let resp = await axios.get(process.env.url + '' + url, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         if (resp.status === 200) {
             return resp.data;
         }
@@ -14,8 +21,12 @@ const getApi = async (url) => {
 
 // POST API
 const postApi = async (url, data) => {
+    let storedAdmin = JSON.parse(localStorage.getItem("admin"));
+    let token = storedAdmin?.token;
     try {
-        let resp = await axios.post(process.env.url + '' + url, data);
+        let resp = await axios.post(process.env.url + '' + url, data, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         if (resp.status === 200) {
             return resp.data;
         }
@@ -26,8 +37,12 @@ const postApi = async (url, data) => {
 
 // PUT API
 const putApi = async (url, data) => {
+    let storedAdmin = JSON.parse(localStorage.getItem("admin"));
+    let token = storedAdmin?.token;
     try {
-        let resp = await axios.put(process.env.url + '' + url, data);
+        let resp = await axios.put(process.env.url + '' + url, data, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         if (resp.status === 200) {
             return resp.data;
         }
@@ -38,10 +53,31 @@ const putApi = async (url, data) => {
 
 // DELETE API
 const deleteApi = async (url, data) => {
+    let storedAdmin = JSON.parse(localStorage.getItem("admin"));
+    let token = storedAdmin?.token;
     try {
-        let resp = await axios.delete(process.env.url + '' + url, data);
+        let resp = await axios.delete(process.env.url + '' + url, data, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         if (resp.status === 200) {
             return resp.data;
+        }
+    } catch (error) {
+        console.error("Fetching Error", error)
+    }
+}
+
+//DELETE MANY
+const softDeleteManyApi = async (type, check, listing) => {
+    let storedAdmin = JSON.parse(localStorage.getItem("admin"));
+    let token = storedAdmin?.token;
+    try {
+        let resp = await putApi(`admin/delete-many?type=${type}`, { check }, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (resp.status) {
+            toast('Items deleted successfully');
+            listing();
         }
     } catch (error) {
         console.error("Fetching Error", error)
@@ -125,10 +161,11 @@ const fetchCategories = async (setCategory) => {
     }
 }
 
-const uploadVideo = async (e, setVideo) => {
+const uploadVideo = async (e, setVideo, setVideoUrl) => {
     const file = e?.target?.files?.[0];
 
     if (file !== undefined) {
+        setVideoUrl('');
 
         const formData = new FormData();
         formData.append('folder_name', 'videos');
@@ -138,9 +175,113 @@ const uploadVideo = async (e, setVideo) => {
         console.log('resp', resp)
         if (resp.videoPath) {
             setVideo(resp.videoPath)
+            setVideoUrl('')
         }
     }
 }
+
+const formateDate = (d) => {
+    const date = new Date(d)
+    const formatted = date.toLocaleString('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    })
+    return formatted;
+}
+
+const formateDayTime = (d) => {
+    const date = new Date(d)
+    const formatted = date.toLocaleString('en-US', {
+        weekday: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+    }).replace(",", ' ')
+    return formatted;
+}
+
+const handleCheck = (id, setCheck) => {
+    return setCheck(prevData => (
+        prevData.includes(id)
+            ? prevData.filter(checkedId => checkedId !== id)
+            : [...prevData, id]
+    ))
+}
+
+const handleMultiCheck = (e, check, setCheck, data) => {
+    if (check.length === data?.length || !e.target.checked) {
+        return setCheck([])
+    }
+    else {
+        setCheck(data?.map((item, i) => item?._id || item?.variantId))
+    }
+}
+
+const normalizeOrder = (order) => {
+    return order.orderListing.map(item => ({
+        orderId: order._id.toString(),
+        userId: order.userId.toString(),
+
+        productId: item.productId.toString(),
+        variantId: item.variantId.toString(),
+        quantity: item.quantity,
+        price: item.price,
+
+        firstName: order.address.firstName,
+        lastName: order.address.lastName,
+        email: order.address.email,
+        phoneNumber: order.address.phoneNumber,
+        country: order.address.country1,
+        pinCode: order.address.pinCode,
+        address: order.address.address,
+
+        currency: order.currency,
+        totalAmount: order.totalAmount,
+        orderStatus: order.orderStatus,
+        paymentStatus: order.paymentStatus,
+        paymentMethod: order.paymentMethod,
+        createdAt: new Date(order.created_at).toDateString(),
+
+        // isDeleted: order.isDeleted,
+        // deletedAt: new Date(order.deleted_at).toDateString(),
+        // status: order.Status,
+
+        // updatedStatusName: order.updatedStatus?.[0]?.name,
+        // updatedStatusTime: order.updatedStatus?.[0]?.time
+    }));
+};
+
+const exportToExcel = (data) => {
+    const normalizedOrders = data.flatMap(order => normalizeOrder(order));
+    const worksheet = XLSX.utils.json_to_sheet(normalizedOrders);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sandy Orders List");
+    XLSX.writeFile(workbook, 'export.xlsx')
+}
+
+const checkAdmin = (admin, setAdmin, router) => {
+    let storedUser = localStorage.getItem("admin")
+    if (storedUser) {
+        let parsedUser = JSON.parse(storedUser);
+        if (parsedUser.token && Date.now() < parsedUser.expiresAt) {
+            setAdmin(parsedUser);
+        }
+        else {
+            localStorage.removeItem("admin")
+            setAdmin(null)
+        }
+    }
+    else {
+        router.push('/auth/login')
+        if (router.push('/auth/login')) {
+            setAdmin(null);
+        }
+    }
+};
 
 export {
     getApi,
@@ -150,6 +291,14 @@ export {
     deleteApi,
     uploadClick,
     fetchCategories,
-    uploadVideo
+    uploadVideo,
+    formateDate,
+    handleCheck,
+    handleMultiCheck,
+    formateDayTime,
+    exportToExcel,
+    normalizeOrder,
+    softDeleteManyApi,
+    checkAdmin
 }
 

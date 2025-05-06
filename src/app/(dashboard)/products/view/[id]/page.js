@@ -2,15 +2,18 @@
 import '../../../../../../public/sass/pages/homePage.scss';
 import '../../../../../../public/sass/pages/table.scss';
 import { Card, Col, Dropdown, Form, Row, Table } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFilter, faStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi } from '@/helpers';
-import { useParams } from 'next/navigation';
+import { checkAdmin, getApi } from '@/helpers';
+import { useParams, useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Products_VewPage = () => {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const { id } = useParams()
     const [show, setShow] = useState(false);
     const [product, setProduct] = useState({})
@@ -55,6 +58,10 @@ const Products_VewPage = () => {
     useEffect(() => {
         getProduct()
     }, [category])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>

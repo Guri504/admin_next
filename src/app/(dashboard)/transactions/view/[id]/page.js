@@ -6,47 +6,45 @@ import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFilter, faStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import axios from 'axios';
-import { useParams, useRouter } from 'next/navigation';
-import { toast, ToastContainer } from 'react-toastify';
-import { checkAdmin, fetchCategories, getApi } from '@/helpers';
-import ReactPlayer from 'react-player/lazy';
+import { useParams } from 'next/navigation';
+import { checkAdmin, formateDate, getApi } from '@/helpers';
+import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import { toast, ToastContainer } from 'react-toastify';
 
 
-const VideoView = () => {
+const Transaction_View_Page = () => {
+
     const { admin, setAdmin } = useContext(UserContext)
     const router = useRouter()
+    const [show, setShow] = useState(false);
     const { id } = useParams()
+    const [transData, setTransData] = useState({});
 
-    const [viewData, setViewData] = useState({})
-
-    const videoData = async () => {
+    const getTransaction = async () => {
         try {
-            let resp = await getApi(`admin/video/view/${id}`)
-            console.log("resp", resp)
+            let resp = await getApi(`admin/transaction/view/${id}`);
+            console.log("resp", resp);
             if (resp.status) {
-                setViewData(resp.data)
+                setTransData(resp.data)
+                toast(resp.message)
             }
-        }
-        catch (error) {
-            toast.error("Not able to fetch Video detail")
+        } catch (error) {
+            console.log(error)
         }
     }
 
     useEffect(() => {
-        videoData()
-    }, [])
+        getTransaction();
+    }, [id])
 
     useEffect(() => {
         checkAdmin(admin, setAdmin, router)
     }, [])
 
-    const [show, setShow] = useState(false);
-
     return (
         <div className='right_side'>
-            <NavBottom title="Manage Videos" backUrl="/videos" />
+            <NavBottom title="Manage Transaction" backUrl="/transactions" />
             <div className='right_area top_spacing'>
                 <Row>
                     <Col xxl={7} xl={7} lg={7} md={7} sm={7} xs={12}>
@@ -54,7 +52,7 @@ const VideoView = () => {
                             <div className='card-header'>
                                 <div className='header_left'>
                                     <div className='heading'>
-                                        Video Detail
+                                        Transaction Information
                                     </div>
                                 </div>
                             </div>
@@ -64,11 +62,27 @@ const VideoView = () => {
                                         <tbody>
                                             <tr>
                                                 <th>Id</th>
-                                                <td>{viewData?._id?.slice(-5)}</td>
+                                                <td>#{transData?._id?.slice(-5)}</td>
                                             </tr>
                                             <tr>
-                                                <th>Title</th>
-                                                <td>{viewData?.title}</td>
+                                                <th>Customer Name</th>
+                                                <td>{transData?.customerName}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Customer Email</th>
+                                                <td>{transData.customerEmail}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <td>#{transData?.orderId}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Banking Transaction Id</th>
+                                                <td>{transData?.transactionId}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Payment Date</th>
+                                                <td>{formateDate(transData?.created_at)}</td>
                                             </tr>
                                         </tbody>
                                     </Table>
@@ -79,7 +93,7 @@ const VideoView = () => {
                             <div className='card-header'>
                                 <div className='header_left'>
                                     <div className='heading'>
-                                        Other Information
+                                        Payment Details
                                     </div>
                                 </div>
                             </div>
@@ -88,20 +102,16 @@ const VideoView = () => {
                                     <Table responsive>
                                         <tbody>
                                             <tr>
-                                                <th>Created on</th>
-                                                <td>{viewData?.created_at}</td>
+                                                <th>Payment Method</th>
+                                                <td>{transData?.method?.toUpperCase()}</td>
                                             </tr>
                                             <tr>
-                                                <th>Updated on</th>
-                                                <td>{viewData?.updated_at}</td>
+                                                <th>Total Amount</th>
+                                                <td>Rs. {transData?.totalAmount}</td>
                                             </tr>
                                             <tr>
-                                                <th>Deleted on</th>
-                                                <td>{viewData?.deleted_at}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Status</th>
-                                                <td>{viewData?.status === 1 ? "True" : "False"}</td>
+                                                <th>Currency</th>
+                                                <td>{transData?.currency}</td>
                                             </tr>
                                         </tbody>
                                     </Table>
@@ -112,27 +122,10 @@ const VideoView = () => {
                     <Col xxl={5} xl={5} lg={5} md={5} sm={5} xs={12} className='mt-sm-0 mt-3' >
                         <Card>
                             {
-                                viewData?.url ?
-                                    <ReactPlayer
-                                        url={viewData?.url}
-                                        controls
-                                        playing={true}
-                                        muted={true}
-                                        width={'100%'}
-                                        height={282}
-                                    />
-                                    :
-                                    viewData?.video ?
-                                        <ReactPlayer
-                                            url={process.env.imageUrl + '' + viewData?.video}
-                                            controls
-                                            playing={true}
-                                            muted={true}
-                                            width={'100%'}
-                                            height={282}
-                                        />
-                                        :
-                                        <p>No video is selected</p>
+                                transData?.customerImage !== '' ?
+                                    <div className='card-body'>
+                                        <img src={process.env.imageUrl + '' + transData?.customerImage} alt="user_image" />
+                                    </div> : <p>No Image Selected</p>
                             }
                         </Card>
                     </Col>
@@ -144,7 +137,7 @@ const VideoView = () => {
                 newestOnTop={true}
                 stacked={true}
                 limit={5}
-                autoClose={2000}
+                autoClose={1500}
                 toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
                 position='bottom-right'
                 theme='colored'
@@ -152,4 +145,4 @@ const VideoView = () => {
         </div>
     )
 };
-export default VideoView;
+export default Transaction_View_Page;

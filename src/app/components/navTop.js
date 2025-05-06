@@ -5,13 +5,18 @@ import '../../../public/sass/pages/navTop.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
 import { faBars, faCog, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../user_context';
 
 
 const NavTop = (props) => {
-    const {
-        toggleSidebar,
-    } = props;
+    const { toggleSidebar, } = props;
+    const { setAdmin } = useContext(UserContext)
 
+    function handleLogOut() {
+        localStorage.removeItem('admin');
+        setAdmin('')
+    }
 
     return (
         <div className='nav_top'>
@@ -53,7 +58,7 @@ const NavTop = (props) => {
                     <Dropdown.Item href="#">
                         <div className='mid'><span className='profile_icon'><FontAwesomeIcon icon={faCog} /></span> Setting</div>
                     </Dropdown.Item>
-                    <Dropdown.Item href="#">
+                    <Dropdown.Item onClick={handleLogOut}>
                         <div className='bottom'>
                             <span className='profile_icon'><FontAwesomeIcon icon={faSignOutAlt} /></span> Log out
                         </div>

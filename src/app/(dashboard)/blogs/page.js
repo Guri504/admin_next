@@ -4,21 +4,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
 import Link from 'next/link';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
-import { deleteApi, fetchCategories, getApi, putApi } from '@/helpers';
+import { checkAdmin, deleteApi, fetchCategories, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
+import { UserContext } from '@/app/user_context';
+import { useRouter } from 'next/navigation';
 
 
 
 const BlogListing = () => {
 
     const [category, setCategory] = useState([])
-
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [blogList, setBlogList] = useState([]);
+    const [check, setCheck] = useState([])
 
     const deleteBlog = async (id) => {
         try {
@@ -58,16 +62,16 @@ const BlogListing = () => {
         }
     }
 
-    const updateBlogStatus = async ( id, newStatus) => {
+    const updateBlogStatus = async (id, newStatus) => {
         try {
             let resp = await putApi(`admin/blog/edit/${id}`, {
                 status: newStatus
             });
-            if (resp.status){
+            if (resp.status) {
                 toast.success("Status Updated Successfully");
                 blogListing(); // Refresh the blog list
             }
-            else { 
+            else {
                 toast.error("Failed to update status");
             }
         } catch (error) {
@@ -82,6 +86,10 @@ const BlogListing = () => {
     useEffect(() => {
         blogListing()
     }, [category])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     const [show, setShow] = useState();
 
@@ -98,7 +106,7 @@ const BlogListing = () => {
                         <div className='crossMain'>
                             <div className='cross_icon' onClick={() => setShow(false)}>
                                 <FontAwesomeIcon icon={faTimesCircle} />
-                            </div> 
+                            </div>
 
                         </div>
                         <Dropdown.Item as={'div'}>
@@ -218,7 +226,7 @@ const BlogListing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item href="#">
+                                                            <Dropdown.Item onClick={() => softDeleteManyApi('blogs', check, blogListing)}>
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -234,7 +242,7 @@ const BlogListing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check /></th>
+                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, blogList)} /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>TITLE <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>CATEGORY <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
@@ -246,7 +254,7 @@ const BlogListing = () => {
                                         <tbody>
                                             {blogList?.length > 0 ? blogList.map((item, index) => (
                                                 <tr key={index}>
-                                                    <td><Form.Check /></td>
+                                                    <td><Form.Check checked={check.includes(item._id)} onChange={() => handleCheck(item._id, setCheck)} /></td>
                                                     <td>{item._id.slice(-5)}</td>
                                                     <td><div className='tab' ><Link href={`/blogs/view/${item._id}`}>{item.title}</Link></div></td>
                                                     <td>{item.category}</td>

@@ -5,20 +5,7 @@ import '../../../public/sass/pages/homePage.scss';
 
 
 const Header = (props) => {
-    const {
-        num1,
-        title1,
-        icon1,
-        num2,
-        title2,
-        icon2,
-        num3,
-        title3,
-        icon3,
-        num4,
-        title4,
-        icon4
-    } = props
+    const { completedOrderLength, pendingPayment } = props
 
     return (
         <Card className="mb-3 top_spacing">
@@ -26,64 +13,48 @@ const Header = (props) => {
                 <div className="content_main">
                     <div className="content">
                         <div className="left_content">
-                            <div className="number">
-                                {num1 ? num1 : 56}
-                            </div>
-                            <div className="pendingTxt">
-                                {title1 ? title1 : 'Pending Payment'}
-                            </div>
+                            <div className="number">{pendingPayment}</div>
+                            <div className="pendingTxt">Pending Payment</div>
                         </div>
                         <div className="right_content">
                             <div className="icon">
-                                <FontAwesomeIcon icon={icon1 ? icon1 : faCalendarAlt} />
+                                <FontAwesomeIcon icon={faCalendarAlt} />
                             </div>
                         </div>
                         <div className="line d-lg-none d-block"></div>
                     </div>
                     <div className="content">
                         <div className="left_content">
-                            <div className="number">
-                                {num2 ? num2 : '12,689'}
-                            </div>
-                            <div className="pendingTxt">
-                                {title2 ? title2 : 'Completed'}
-                            </div>
+                            <div className="number">{completedOrderLength}</div>
+                            <div className="pendingTxt">Completed Payments</div>
                         </div>
                         <div className="right_content">
                             <div className="icon">
-                                <FontAwesomeIcon icon={icon2 ? icon2 : faCheckDouble} />
+                                <FontAwesomeIcon icon={faCheckDouble} />
                             </div>
                         </div>
                         <div className="line d-lg-none d-block"></div>
                     </div>
                     <div className="content">
                         <div className="left_content">
-                            <div className="number">
-                                {num3 ? num3 : 124}
-                            </div>
-                            <div className="pendingTxt">
-                                {title3 ? title3 : 'Refunded'}
-                            </div>
+                            <div className="number">{0}</div>
+                            <div className="pendingTxt">Refunded</div>
                         </div>
                         <div className="right_content">
                             <div className="icon">
-                                <FontAwesomeIcon icon={icon3 ? icon3 : faWallet} />
+                                <FontAwesomeIcon icon={faWallet} />
                             </div>
                         </div>
                         <div className="line d-md-none d-block"></div>
                     </div>
                     <div className="content">
                         <div className="left_content">
-                            <div className="number">
-                                {num4 ? num4 : 32}
-                            </div>
-                            <div className="pendingTxt">
-                                {title4 ? title4 : 'Failed'}
-                            </div>
+                            <div className="number">{0}</div>
+                            <div className="pendingTxt">Failed Payments</div>
                         </div>
                         <div className="right_content">
                             <div className="icon">
-                                <FontAwesomeIcon icon={icon4 ? icon4 : faExclamationTriangle} />
+                                <FontAwesomeIcon icon={faExclamationTriangle} />
                             </div>
                         </div>
                     </div>

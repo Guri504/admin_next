@@ -5,7 +5,7 @@ const Select = dynamic(() => import('react-select'), {
 });
 import dynamic from 'next/dynamic';
 import '../../../../../../public/sass/pages/multiSelect.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, ProgressBar, Row } from 'react-bootstrap';
 import '../../../../../../public/sass/pages/add.scss';
 import '../../../../../../public/sass/pages/homePage.scss';
@@ -15,13 +15,15 @@ import NavBottom from '@/app/components/navBottom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { useParams, useRouter } from 'next/navigation';
-import { fetchCategories, getApi, postApi, putApi, toBase64, uploadClick } from '../../../../../helpers'
+import { checkAdmin, fetchCategories, getApi, postApi, putApi, toBase64, uploadClick } from '../../../../../helpers'
+import { UserContext } from '@/app/user_context';
 
 
 
 const EditBLog = () => {
 
     const router = useRouter()
+    const { admin, setAdmin } = useContext(UserContext)
 
     const params = useParams();
 
@@ -132,6 +134,10 @@ const EditBLog = () => {
     useEffect(() => {
         defaultData();
     }, [category])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);

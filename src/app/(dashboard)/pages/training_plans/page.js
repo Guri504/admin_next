@@ -1,19 +1,22 @@
 "use client";
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi, postApi, putApi } from '@/helpers';
+import { checkAdmin, getApi, postApi, putApi } from '@/helpers';
 import CustomEditor from '@/app/components/custom_editor';
 import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Training_Plans_Titles = () => {
-    
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [oldData, setOldData] = useState({})
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
@@ -47,6 +50,10 @@ const Training_Plans_Titles = () => {
 
     useEffect(() => {
         viewContent()
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     return (
@@ -137,7 +144,7 @@ const Training_Plans_Titles = () => {
                 stacked={true}
                 limit={5}
                 autoClose={2000}
-                toastStyle={{ backgroundColor: '#696cff', color:'white' }}
+                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
                 position='bottom-right'
                 theme='colored'
             />

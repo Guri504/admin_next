@@ -2,16 +2,19 @@
 import '../../../../../../public/sass/pages/homePage.scss';
 import '../../../../../../public/sass/pages/table.scss';
 import { Card, Col, Dropdown, Form, Row, Table } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFilter, faStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi } from '@/helpers';
-import { useParams } from 'next/navigation';
+import { checkAdmin, getApi } from '@/helpers';
+import { useParams, useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Strategy_Plan_VewPage = () => {
-    const {id} = useParams()
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
+    const { id } = useParams()
     const [show, setShow] = useState(false);
     const [viewPlan, setViewPlan] = useState({})
 
@@ -19,7 +22,7 @@ const Strategy_Plan_VewPage = () => {
         try {
             let resp = await getApi(`admin/strategy_plan/view/${id}`);
             console.log(resp)
-            if(resp.status){
+            if (resp.status) {
                 setViewPlan(resp.data)
             }
         } catch (error) {
@@ -30,6 +33,10 @@ const Strategy_Plan_VewPage = () => {
     useEffect(() => {
         Plan()
     }, [id])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>
@@ -63,7 +70,7 @@ const Strategy_Plan_VewPage = () => {
                             </div>
                             <div className='card-footer'>
                                 <div className='sub_heading'>Description</div>
-                                <div className='desc' dangerouslySetInnerHTML={{__html: viewPlan?.description}}/>
+                                <div className='desc' dangerouslySetInnerHTML={{ __html: viewPlan?.description }} />
                             </div>
                         </Card>
                     </Col>

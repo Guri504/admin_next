@@ -11,15 +11,50 @@ import mastercard from '../../../../public/images/mastercard.png';
 import paypal from '../../../../public/images/paypal.png';
 import Header from '@/app/components/header';
 import NavBottom from '@/app/components/navBottom';
+import { useContext, useEffect, useState } from 'react';
+import { checkAdmin, exportToExcel, formateDate, getApi, handleCheck, handleMultiCheck } from '@/helpers';
+import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Order = () => {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
+    const [orderListing, setOrderListing] = useState([]);
+    const [listLimit, setlistLimit] = useState(7)
+    const [check, setCheck] = useState([])
+
+    const completedOrderLength = orderListing?.filter(o => o?.paymentStatus === 'captured')?.length;
+    const pendingPaymentOrderLength = orderListing?.filter(o => o?.paymentStatus === 'failed')?.length;
+
+    const listing = async () => {
+        try {
+            let resp = await getApi(`admin/orders-listing?limit=${listLimit}`);
+            if (resp.status) {
+                setOrderListing(resp.data);
+            }
+            else {
+                toast(resp.message);
+            }
+        } catch (error) {
+            console.log("error", error)
+        }
+    }
+
+    useEffect(() => {
+        listing()
+    }, [listLimit])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>
             <NavBottom title="Orders">
-                <Form.Select aria-label="Default select example">
-                    <option value="7">7</option>
+                <Form.Select aria-label="Default select example" onChange={(e) => setlistLimit(parseInt(e.target.value))}>
+                    <option defaultValue="7">7</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -38,17 +73,17 @@ const Order = () => {
                         <Dropdown.Item href="#/action-2">
                             <span className='icon'><FontAwesomeIcon icon={faFileCsv} /></span> Csv
                         </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
+                        <Dropdown.Item onClick={() => exportToExcel(orderListing)}>
                             <span className='icon'><FontAwesomeIcon icon={faFileExcel} /></span> Excels
                         </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
+                        <Dropdown.Item >
                             <span className='icon'><FontAwesomeIcon icon={faFilePdf} /></span> Pdf
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </NavBottom>
             <div className="right_area">
-                <Header />
+                <Header completedOrderLength={completedOrderLength} pendingPayment={pendingPaymentOrderLength} />
                 <Card>
                     <div className='card-header'>
                         <Row>
@@ -96,7 +131,7 @@ const Order = () => {
                             <Table>
                                 <thead>
                                     <tr>
-                                        <th><Form.Check /></th>
+                                        <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, orderListing)} /></th>
                                         <th>order Id</th>
                                         <th>date</th>
                                         <th>customer name</th>
@@ -108,45 +143,54 @@ const Order = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        [...Array(10)].map((_, index) => (
-                                            <tr key={index}>
-                                                <td><Form.Check /></td>
-                                                <td>#6544</td>
-                                                <td>Oct 25, 2022, 10:48</td>
+                                        orderListing?.length > 0 && orderListing.map((order, index) => {
+                                            return <tr key={index}>
+                                                <td><Form.Check checked={check.includes(order._id)} onChange={() => handleCheck(order._id, setCheck)} /></td>
+                                                <td>#{order?._id?.slice(-5)}</td>
+                                                <td>{formateDate(order?.created_at)}</td>
                                                 <td>
                                                     <div className='profile_area'>
                                                         <div className='profile_img'>
                                                             <Image
-                                                                src={carousel_img1}
+                                                                src={process.env.imageUrl + '' + order?.customerImage}
                                                                 alt='...'
                                                                 priority="low"
+                                                                width={32}
+                                                                height={32}
                                                             />
                                                         </div>
                                                         <div className='info'>
-                                                            <Link className='name' href="#">Abagael Drogan</Link>
+                                                            <Link className='name' href="#">{order?.customerName}</Link>
                                                             <div className='email'>
-                                                                adrogan8@storify.com
+                                                                {order?.customerEmail}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div className='cancelTxt'>
-                                                        Cancelled
+                                                        {order?.paymentStatus === 'captured' ? 'Success' : 'Pending'}
                                                     </div>
                                                 </td>
-                                                <td><span className='outDel'>Out for Delivery</span></td>
+                                                <td><span className='outDel'>{order?.orderStatus.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span></td>
                                                 <td>
-                                                    <div className='pay_type'>
-                                                        <div className='card_img'>
-                                                            <Image
-                                                                src={mastercard}
-                                                                alt='...'
-                                                                fetchPriority='low'
-                                                            />
+                                                    {order?.paymentMethod == 'netbanking' &&
+                                                        <div className='pay_type'>
+                                                            <div>Net Banking</div>
                                                         </div>
-                                                        <FontAwesomeIcon icon={faEllipsisH} /> 2356
-                                                    </div>
+                                                    }
+                                                    {order?.paymentMethod === 'card' &&
+                                                        <div className='pay_type'>
+                                                            <div className='card_img'>
+                                                                <Image
+                                                                    src={mastercard}
+                                                                    alt='...'
+                                                                    fetchPriority='low'
+                                                                />
+                                                            </div>
+                                                            <FontAwesomeIcon icon={faEllipsisH} /> 2356
+                                                        </div>
+                                                    }
                                                 </td>
                                                 <td>
                                                     <Dropdown>
@@ -154,13 +198,14 @@ const Order = () => {
                                                             <FontAwesomeIcon icon={faEllipsisV} />
                                                         </Dropdown.Toggle>
                                                         <Dropdown.Menu>
-                                                            <Dropdown.Item href="orderDetail"><span className='view'><FontAwesomeIcon icon={faEye} /></span> View</Dropdown.Item>
+                                                            <Dropdown.Item href={`orderDetail/${order?._id}`}><span className='view'><FontAwesomeIcon icon={faEye} /></span> View</Dropdown.Item>
                                                             <Dropdown.Item href="#"><span className='delete'><FontAwesomeIcon icon={faTrashAlt} /></span> Delete</Dropdown.Item>
                                                         </Dropdown.Menu>
                                                     </Dropdown>
                                                 </td>
                                             </tr>
-                                        ))
+                                        }
+                                        )
                                     }
                                 </tbody>
                             </Table>
@@ -168,6 +213,17 @@ const Order = () => {
                     </div>
                 </Card>
             </div>
+            <ToastContainer
+                closeButton={true}
+                closeOnClick={true}
+                newestOnTop={true}
+                stacked={true}
+                limit={5}
+                autoClose={2000}
+                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
+                position='bottom-right'
+                theme='colored'
+            />
         </div>
     )
 };

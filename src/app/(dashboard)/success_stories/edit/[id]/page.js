@@ -2,19 +2,21 @@
 import dynamic from 'next/dynamic';
 const CustomEditor = dynamic(() => import('@/app/components/custom_editor'), { ssr: false });
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../../public/sass/pages/add.scss';
 import '../../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, faTimes, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi, postApi, putApi, uploadClick } from '@/helpers';
+import { checkAdmin, getApi, postApi, putApi, uploadClick } from '@/helpers';
 import { toast } from 'react-toastify';
 import { useParams, useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Success_Stories_Edit = () => {
+    const { admin, setAdmin } = useContext(UserContext)
     const router = useRouter()
     const { id } = useParams()
     const [show, setShow] = useState(false);
@@ -68,7 +70,11 @@ const Success_Stories_Edit = () => {
 
     useEffect(() => {
         defaultdata()
-        }, [])
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>
@@ -132,7 +138,7 @@ const Success_Stories_Edit = () => {
                                     <Form.Group className='form-group '>
                                         <Form.Label>Image <span>*</span></Form.Label>
                                         <Form.Label htmlFor="file-upload" className='upload mb-3' >Upload Image</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control
                                             name='image'
                                             type="file"
                                             id="file-upload"

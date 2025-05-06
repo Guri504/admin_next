@@ -1,5 +1,5 @@
 "use client";
-import { Card, Col, Dropdown, Form, InputGroup, Row, Table } from 'react-bootstrap';
+import { Badge, Card, Col, Dropdown, Form, InputGroup, Row, Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
@@ -7,61 +7,43 @@ import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTime
 import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
-import { checkAdmin, deleteApi, getApi, handleCheck, handleMultiCheck, softDeleteManyApi } from '@/helpers';
-import Link from 'next/link';
-import { toast, ToastContainer } from 'react-toastify';
-import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import { checkAdmin, getApi } from '@/helpers';
+import { Router } from 'next/router';
+import { useRouter } from 'next/navigation';
+import mastercard from '../../../../public/images/mastercard.png'
+import Link from 'next/link';
+import Image from 'next/image';
 
 
-
-const UserListing = () => {
-    const { admin, setAdmin } = useContext(UserContext)
+export default function Transactions() {
     const router = useRouter()
     const [show, setShow] = useState();
-    const [check, setCheck] = useState([]);
-    const [list, setList] = useState([]);
+    const { admin, setAdmin } = useContext(UserContext)
+    const [transactions, setTransactions] = useState([]);
 
-    const userList = async () => {
+    const listing = async () => {
         try {
-            let resp = await getApi('admin/users');
-            console.log("userList", resp);
+            let resp = await getApi('admin/transactions');
+            console.log(resp)
             if (resp.status) {
-                setList(resp.message);
-                console.log(resp.message);
+                setTransactions(resp.data);
             }
         } catch (error) {
-            console.log("Fetching Error", error)
-        }
-    }
-
-    const deleteUser = async (id) => {
-        try {
-            let resp = await deleteApi(`admin/user/delete/${id}`);
-            if (resp.status === true) {
-                toast("User Deleted Successfully")
-                userList();
-            }
-            else {
-                toast("Not able to delete user")
-            }
-        } catch (error) {
-            toast.error("Error in deleting user")
+            console.log(error)
         }
     }
 
     useEffect(() => {
-        console.log("listing", list)
-        userList();
+        listing();
     }, [])
 
     useEffect(() => {
         checkAdmin(admin, setAdmin, router)
     }, [])
-
     return (
         <div className='right_side'>
-            <NavBottom title="Manage Users">
+            <NavBottom title="Manage Transactions">
                 <Dropdown bsPrefix='filter_dropdown' show={show}>
                     <Dropdown.Toggle id="dropdown-basic" onClick={() => setShow(true)}>
                         <span className='icon' ><FontAwesomeIcon icon={faFilter} /></span>
@@ -158,7 +140,7 @@ const UserListing = () => {
                                 <Row>
                                     <Col xxl={8} xl={8} lg={8} md={5} sm={5} xs={12}>
                                         <div className='header_left'>
-                                            <div className='heading'>Here Is Your Users Listing!</div>
+                                            <div className='heading'>Here Is Your Transaction Listing!</div>
                                         </div>
                                     </Col>
                                     <Col xxl={4} xl={4} lg={4} md={7} sm={7} xs={12}>
@@ -190,7 +172,7 @@ const UserListing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item onClick={() => softDeleteManyApi('users', check, userList)}>
+                                                            <Dropdown.Item href="#">
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -206,49 +188,54 @@ const UserListing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, list)} /></th>
+                                                <th><Form.Check /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
-                                                <th>NAME <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
-                                                <th>EMAIL <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
-                                                {/* <th>STATUS <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th> */}
+                                                <th>Banking ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
+                                                <th>Order ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
+                                                <th>Customer NAME <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
+                                                <th>Amount <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
+                                                <th>STATUS <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>CREATED ON <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>ACTIONS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
-                                                list?.length > 0 ? list.map((item, index) => (
-                                                    <tr key={index}>
-                                                        <td><Form.Check checked={check.includes(item._id)} onChange={() => handleCheck(item._id, setCheck)} /></td>
-                                                        <td>{item._id.slice(-5)}</td>
-                                                        <td><div className='tab'><Link href={`/users/view/${item._id}`}>{item.firstName1 + ' ' + item.lastName1}</Link></div></td>
-                                                        <td>{item.email1}</td>
-                                                        {/* <td>
-                                                            <Form.Group className='form-group'>
-                                                                <Form.Check type="switch" />
-                                                            </Form.Group>
-                                                        </td> */}
-                                                        <td>{item.created_at}</td>
+                                                transactions?.length > 0 && transactions.map((t, i) => {
+                                                    return <tr key={i}>
+                                                        <td><Form.Check /></td>
+                                                        <td className='text-primary'>#{t?._id?.slice(-5)}</td>
+                                                        <td className='text-danger'>#{t?.transactionId}</td>
+                                                        <td className='text-primary'>#{t?.orderId?.slice(-5)}</td>
                                                         <td>
-                                                            <Dropdown>
-                                                                <Dropdown.Toggle id="dropdown-basic">
-                                                                    <FontAwesomeIcon icon={faEllipsisV} />
-                                                                </Dropdown.Toggle>
-                                                                <Dropdown.Menu>
-                                                                    {/* <Dropdown.Item href="#"><span className='edit'>
-                                                                        <FontAwesomeIcon icon={faEdit} /></span> Edit
-                                                                    </Dropdown.Item> */}
-                                                                    <Dropdown.Item href={`/users/view/${item._id}`}>
-                                                                        <span className='view'><FontAwesomeIcon icon={faEye} />
-                                                                        </span> View</Dropdown.Item>
-                                                                    <Dropdown.Item href="#" onClick={() => deleteUser(item._id)}>
-                                                                        <span className='delete'><FontAwesomeIcon icon={faTrashAlt} /></span> Delete
-                                                                    </Dropdown.Item>
-                                                                </Dropdown.Menu>
-                                                            </Dropdown>
+                                                            <div className='profile_area'>
+                                                                <div className='profile_img'>
+                                                                    <Image
+                                                                        src={process.env.imageUrl + '' + t?.customerImage}
+                                                                        alt='...'
+                                                                        priority="low"
+                                                                        width={32}
+                                                                        height={32}
+                                                                    />
+                                                                </div>
+                                                                <div className='info'>
+                                                                    <Link className='name' href="#">{t?.customerName}</Link>
+                                                                    <div className='email'>
+                                                                        {t?.customerEmail}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td><Badge bg="success">Rs {t?.totalAmount}</Badge></td>
+                                                        {t?.paymentStatus == 'captured' ?
+                                                            <td><Badge bg="success">Paid</Badge></td> :
+                                                            <td><Badge bg="danger">Failed</Badge></td>}
+                                                        <td>{new Date(t?.created_at).toDateString()}</td>
+                                                        <td>
+                                                            <Link href={`/transactions/view/${t?._id}`} ><Badge className='bdg' bg='primary'>View</Badge></Link>
                                                         </td>
                                                     </tr>
-                                                )) : null
+                                                })
                                             }
                                         </tbody>
                                     </Table>
@@ -258,19 +245,6 @@ const UserListing = () => {
                     </Col>
                 </Row>
             </div>
-            <ToastContainer
-                closeButton={true}
-                closeOnClick={true}
-                newestOnTop={true}
-                stacked={true}
-                limit={5}
-                autoClose={1500}
-                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
-                position='bottom-right'
-                theme='colored'
-            />
         </div>
     )
 }
-
-export default UserListing;

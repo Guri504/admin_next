@@ -2,37 +2,44 @@
 import '../../../../../../public/sass/pages/homePage.scss';
 import '../../../../../../public/sass/pages/table.scss';
 import { Card, Col, Dropdown, Form, Row, Table } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFilter, faStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
 import { useParams } from 'next/navigation';
-import { getApi } from '@/helpers';
+import { checkAdmin, getApi } from '@/helpers';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const UserViewPage = () => {
-
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState(false);
 
     const params = useParams()
 
-    const [ userData, setUserData ] = useState({});
+    const [userData, setUserData] = useState({});
 
     const viewUser = async () => {
         try {
             let resp = await getApi(`admin/user/view/${params.id}`);
             console.log("resp", resp);
-            if (resp.status){
+            if (resp.status) {
                 setUserData(resp.data)
             }
         } catch (error) {
-            
+
         }
     }
 
     useEffect(() => {
         viewUser();
-    },[params.id])
+    }, [params.id])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>
@@ -92,10 +99,10 @@ const UserViewPage = () => {
                     </Col>
                     <Col xxl={5} xl={5} lg={5} md={5} sm={5} xs={12} className='mt-sm-0 mt-3' >
                         <Card>
-                        {
+                            {
                                 userData.image1 !== '' ?
                                     <div className='card-body'>
-                                        <img src={process.env.imageUrl+''+userData.image1} alt="user_image" />
+                                        <img src={process.env.imageUrl + '' + userData.image1} alt="user_image" />
                                     </div> : <p>No Image Selected</p>
                             }
                         </Card>

@@ -5,7 +5,7 @@ const Select = dynamic(() => import('react-select'), {
 });
 import dynamic from 'next/dynamic';
 import '../../../../../public/sass/pages/multiSelect.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, ProgressBar, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';
@@ -14,15 +14,21 @@ import { faEye, faEyeSlash, faRedo, faTimes, } from '@fortawesome/free-solid-svg
 import NavBottom from '@/app/components/navBottom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
-import { fetchCategories, getApi, postApi, toBase64, uploadClick} from '../../../../helpers'
+import { checkAdmin, fetchCategories, getApi, postApi, toBase64, uploadClick } from '../../../../helpers'
 import Image from 'next/image';
 import { ClientPageRoot } from 'next/dist/client/components/client-page';
+import { UserContext } from '@/app/user_context';
+import { useRouter } from 'next/navigation';
 
 
 
 const AddBLog = () => {
 
+    const [imgData, setImgData] = useState({});
+    const [img, setImg] = useState("");
     const [progress, setProgress] = useState(0);
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
 
     const [category, setCategory] = useState([
         {
@@ -40,8 +46,6 @@ const AddBLog = () => {
         subHeading: ""
     });
 
-    const [imgData, setImgData] = useState({});
-    const [img, setImg] = useState("");
 
     const blogSubmit = async (e) => {
         e.preventDefault();
@@ -84,7 +88,7 @@ const AddBLog = () => {
     const onFileChange = (e) => {
         uploadClick(e, setProgress, setImgData, setImg);
         e.currentTarget.value = "";
-    } 
+    }
 
     const handleDelete = () => {
         setImgData({});
@@ -92,6 +96,10 @@ const AddBLog = () => {
 
     useEffect(() => {
         fetchCategories(setCategory)
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     const [show, setShow] = useState(false);
@@ -164,7 +172,7 @@ const AddBLog = () => {
                                             isMulti={true}
                                             name="category"
                                             value={category.filter(option => blogData.category.includes(option.value))}
-                                            onChange={(selectedOptions) =>  
+                                            onChange={(selectedOptions) =>
                                                 setBlogData(prev => ({ ...prev, category: selectedOptions.map(option => option.value) }))
                                             }
                                             options={category} // for the single and multi select

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useContext, useEffect, useLayoutEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import '../../public/sass/pages/homePage.scss';
 import TableCom from './components/table';
@@ -10,14 +10,21 @@ import MultiSelect from './components/multiSelect';
 import ViewData from './components/viewData';
 import TableListing from './(dashboard)/tableListing/page';
 import { useRouter } from "next/navigation";
+import { UserContext } from './user_context';
+import { checkAdmin } from '@/helpers';
 
 
 const HomeAdmin = () => {
+  const { admin, setAdmin } = useContext(UserContext)
   const router = useRouter();
 
   useLayoutEffect(() => {
     router.replace("/tableListing");
   }, []);
+
+  useEffect(() => {
+    checkAdmin(admin, setAdmin, router)
+  }, [])
 
   return (
     <div>Dashboard</div>

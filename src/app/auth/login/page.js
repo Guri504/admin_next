@@ -1,13 +1,39 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Card, Form, InputGroup } from 'react-bootstrap';
 import '../../../../public/sass/pages/auth.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { postApi } from '@/helpers';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        console.log('---------------')
+        try {
+            let formdata = new FormData(e.target);
+            let finalData = Object.fromEntries(formdata.entries());
+            console.log("finalData", finalData)
+            let resp = await postApi('admin/login', finalData);
+            console.log(resp, '------')
+            if (resp.status) {
+                localStorage.setItem('admin', JSON.stringify(resp.admin))
+                setAdmin(resp.admin);
+                router.push('/')
+            }
+            else {
+                toast(resp.message)
+            }
+        } catch (err) { console.log(err) }
+    }
 
     return (
         <div className='auth_page'>
@@ -18,11 +44,12 @@ const Login = () => {
                 <div className='card-body'>
                     <h5>Sign In</h5>
                     <div className='desc'>Please sign-in to your account and start the adventure</div>
-                    <Form>
+                    <Form onSubmit={handleLogin}>
                         <Form.Group className='form-group'>
                             <Form.Label>Email</Form.Label>
                             <Form.Control
                                 required
+                                name='email'
                                 type="text"
                                 placeholder="Enter Your Email"
                             />
@@ -34,6 +61,7 @@ const Login = () => {
                             </div>
                             <InputGroup>
                                 <Form.Control
+                                    name='password'
                                     required
                                     type={showPass ? "text" : "password"}
                                     placeholder="Enter Your Password"
@@ -50,6 +78,17 @@ const Login = () => {
                     </Form>
                 </div>
             </Card>
+            <ToastContainer
+                closeButton={true}
+                closeOnClick={true}
+                newestOnTop={true}
+                stacked={true}
+                limit={5}
+                autoClose={1500}
+                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
+                position='bottom-right'
+                theme='colored'
+            />
         </div>
     )
 };

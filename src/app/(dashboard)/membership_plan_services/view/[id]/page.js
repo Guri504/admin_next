@@ -2,16 +2,19 @@
 import '../../../../../../public/sass/pages/homePage.scss';
 import '../../../../../../public/sass/pages/table.scss';
 import { Card, Col, Dropdown, Form, Row, Table } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFilter, faStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi } from '@/helpers';
-import { useParams } from 'next/navigation';
+import { checkAdmin, getApi } from '@/helpers';
+import { useParams, useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Membership_Plan_Service_VewPage = () => {
-    const {id} = useParams()
+    const { id } = useParams()
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState(false);
     const [viewService, setViewService] = useState({})
 
@@ -19,7 +22,7 @@ const Membership_Plan_Service_VewPage = () => {
         try {
             let resp = await getApi(`admin/membershipPlanService/view/${id}`);
             console.log(resp)
-            if(resp.status){
+            if (resp.status) {
                 setViewService(resp.data)
                 console.log(resp.data._id)
             }
@@ -31,6 +34,10 @@ const Membership_Plan_Service_VewPage = () => {
     useEffect(() => {
         Service()
     }, [id])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>

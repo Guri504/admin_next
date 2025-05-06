@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import '../../../public/sass/pages/sidebar.scss';
-import { faUsers, faAngleDown, faSignOutAlt, faFileAlt, faQuestionCircle, faAddressCard, faBars, faMapMarkerAlt, faAngleRight, faHomeAlt, faAngleLeft, faBlog, faUsersGear, faFunnelDollar, faHeading, faDumbbell, faInfo, faCircleInfo, faTrash, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faAngleDown, faSignOutAlt, faFileAlt, faQuestionCircle, faAddressCard, faBars, faMapMarkerAlt, faAngleRight, faHomeAlt, faAngleLeft, faBlog, faUsersGear, faFunnelDollar, faHeading, faDumbbell, faInfo, faCircleInfo, faTrash, faVideo, faRupeeSign, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import Link from 'next/link';
 const SideBar = (props) => {
 
     const trashLinks = [
+        { name: 'users' },
         { name: 'about_me' },
         { name: 'blogs' },
         { name: 'blogs_category' },
@@ -23,7 +24,9 @@ const SideBar = (props) => {
         { name: 'products' },
         { name: 'products_category' },
         { name: 'products_sizes' },
+        { name: 'products_color' },
         { name: 'product_variants' },
+        { name: 'videos' },
     ]
 
     const {
@@ -121,6 +124,11 @@ const SideBar = (props) => {
                                     <li>
                                         <Link href="/pages/training_plans" className='dropDownItem'>
                                             1-1 Training Plans
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/pages/videos" className='dropDownItem'>
+                                            Videos
                                         </Link>
                                     </li>
                                     <li>
@@ -404,41 +412,24 @@ const SideBar = (props) => {
                             </Link>
                         </li>
                         <li>
-                            <div className='link_area' onClick={() => showFunc('Orders')}>
-                                <div className='dropDown_area'>
-                                    <div className='dropDown'>
-                                        <div className='left_side'>
-                                            <span className='icon'>
-                                                <FontAwesomeIcon icon={faFileAlt} />
-                                            </span>
-                                            <span className='title'>
-                                                Orders
-                                            </span>
-                                        </div>
-                                        <div className='right_side'>
-                                            <span className='right_arrow'>
-                                                {show === "Orders" ?
-                                                    <FontAwesomeIcon icon={faAngleDown} /> :
-                                                    <FontAwesomeIcon icon={faAngleRight} />}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={`dropDown_content ${show === "Orders" ? 'show' : ''}`}>
-                                <ul>
-                                    <li>
-                                        <Link href="/order" className='dropDownItem'>
-                                            Order List
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/orderDetail" className='dropDownItem'>
-                                            Order Detail
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
+                            <Link href="/order" className='link_area'>
+                                <span className='icon'>
+                                    <FontAwesomeIcon icon={faFileAlt} />
+                                </span>
+                                <span className='title'>
+                                    Orders
+                                </span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/transactions" className='link_area'>
+                                <span className='icon'>
+                                    <FontAwesomeIcon icon={faIndianRupeeSign} />
+                                </span>
+                                <span className='title'>
+                                    Transactions
+                                </span>
+                            </Link>
                         </li>
                         <li>
                             <Link href="#" className='link_area'>
@@ -495,46 +486,6 @@ const SideBar = (props) => {
                                     <li>
                                         <Link href="#" className='dropDownItem'>
                                             Email Logs
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <div className='link_area' onClick={() => showFunc('Locations')}>
-                                <div className='dropDown_area'>
-                                    <div className='dropDown'>
-                                        <div className='left_side'>
-                                            <span className='icon'>
-                                                <FontAwesomeIcon icon={faMapMarkerAlt} />
-                                            </span>
-                                            <span className='title'>
-                                                Locations
-                                            </span>
-                                        </div>
-                                        <div className='right_side'>
-                                            <span className='right_arrow'>
-                                                {show === "Locations" ? <FontAwesomeIcon icon={faAngleDown} /> : <FontAwesomeIcon icon={faAngleRight} />}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={`dropDown_content ${show === "Locations" ? 'show' : ''}`}>
-                                <ul>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Countries
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            County
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className='dropDownItem'>
-                                            Cities
                                         </Link>
                                     </li>
                                 </ul>

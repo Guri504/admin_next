@@ -4,15 +4,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
+import { UserContext } from '@/app/user_context';
+import { checkAdmin } from '@/helpers';
+import { Router } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 
 const TableListing = () => {
+    const router = useRouter()
     const [show, setShow] = useState();
+    const { admin, setAdmin } = useContext(UserContext)
 
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
     return (
         <div className='right_side'>
             <NavBottom title="Manage Users">

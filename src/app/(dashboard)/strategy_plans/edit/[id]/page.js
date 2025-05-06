@@ -1,20 +1,22 @@
 "use client";
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../../public/sass/pages/add.scss';
 import '../../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi, postApi, putApi } from '@/helpers';
+import { checkAdmin, getApi, postApi, putApi } from '@/helpers';
 import { useParams, useRouter } from 'next/navigation';
 import CustomEditor from '@/app/components/custom_editor';
 import { toast, ToastContainer } from 'react-toastify';
+import { UserContext } from '@/app/user_context';
 
 
 const Strategy_Plan_Edit = () => {
-    const {id} = useParams()
+    const { admin, setAdmin } = useContext(UserContext)
+    const { id } = useParams()
     const router = useRouter()
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
@@ -23,8 +25,8 @@ const Strategy_Plan_Edit = () => {
     const getplan = async () => {
         try {
             let resp = await getApi(`admin/strategy_plan/view/${id}`);
-            console.log("resp",resp)
-            if(resp.status){
+            console.log("resp", resp)
+            if (resp.status) {
                 setPlanData(resp.data);
             }
         } catch (error) {
@@ -41,7 +43,7 @@ const Strategy_Plan_Edit = () => {
             console.log("resp", resp);
             if (resp.status) {
                 toast("Data Updated Successfully");
-               setTimeout(() =>(router.push('/strategy_plans')), 1500 ) 
+                setTimeout(() => (router.push('/strategy_plans')), 1500)
             }
         } catch (error) {
             console.log(error)
@@ -51,6 +53,10 @@ const Strategy_Plan_Edit = () => {
     useEffect(() => {
         getplan()
     }, [id])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
+    }, [])
 
     return (
         <div className='right_side'>

@@ -4,16 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../../../../public/sass/pages/homePage.scss';
 import '../../../../public/sass/pages/table.scss';
 import { faEdit, faEllipsisV, faEye, faFilter, faSearch, faSort, faTimes, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NavBottom from '../../components/navBottom';
 import TableCom from '@/app/components/table';
 import Link from 'next/link';
-import { deleteApi, getApi, putApi } from '@/helpers';
+import { checkAdmin, deleteApi, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
 import { toast, ToastContainer } from 'react-toastify';
+import { UserContext } from '@/app/user_context';
+import { useRouter } from 'next/navigation';
 
 const Strategy_Plan_Listing = () => {
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState();
     const [planList, setPlanlist] = useState([]);
+    const [check, setCheck] = useState([]);
 
     const listing = async () => {
         try {
@@ -32,7 +37,7 @@ const Strategy_Plan_Listing = () => {
     const deletePlan = async (id) => {
         try {
             let resp = await deleteApi(`admin/strategy_plan/delete/${id}`);
-            if(resp.status){
+            if (resp.status) {
                 toast(resp.message);
                 listing()
             }
@@ -42,16 +47,16 @@ const Strategy_Plan_Listing = () => {
         }
     }
 
-    const updatePlanStatus = async ( id, newStatus) => {
+    const updatePlanStatus = async (id, newStatus) => {
         try {
             let resp = await putApi(`admin/strategy_plan/edit/${id}`, {
                 status: newStatus
             });
-            if (resp.status){
+            if (resp.status) {
                 toast("Staus Updated Succesfully");
                 listing();
             }
-            else { 
+            else {
                 toast.error(resp.message);
             }
         } catch (error) {
@@ -62,6 +67,10 @@ const Strategy_Plan_Listing = () => {
 
     useEffect(() => {
         listing()
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     return (
@@ -196,7 +205,7 @@ const Strategy_Plan_Listing = () => {
                                                             <Dropdown.Item href="#">
                                                                 <span className='publish unpublish'></span> UnPublish
                                                             </Dropdown.Item>
-                                                            <Dropdown.Item href="#">
+                                                            <Dropdown.Item onClick={() => softDeleteManyApi('strategy_plans', check, listing)}>
                                                                 <span className='cross'><FontAwesomeIcon icon={faTimes} /></span> Delete
                                                             </Dropdown.Item>
                                                         </Dropdown.Menu>
@@ -212,7 +221,7 @@ const Strategy_Plan_Listing = () => {
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th><Form.Check /></th>
+                                                <th><Form.Check onChange={(e) => handleMultiCheck(e, check, setCheck, planList)} /></th>
                                                 <th>ID <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>Title <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
                                                 <th>STATUS <span className='sort_icon'><FontAwesomeIcon icon={faSort} /></span></th>
@@ -223,15 +232,15 @@ const Strategy_Plan_Listing = () => {
                                         <tbody>
                                             {planList?.length > 0 && planList.map((plan, i) => (
                                                 <tr key={i}>
-                                                    <td><Form.Check /></td>
+                                                    <td><Form.Check checked={check.includes(plan._id)} onChange={() => handleCheck(plan._id, setCheck)} /></td>
                                                     <td>{plan._id.slice(-5)}</td>
                                                     <td><div className='tab'><Link href={`/strategy_plans/view/${plan._id}`}>{plan.title}</Link></div></td>
                                                     <td>
                                                         <Form.Group className='form-group'>
-                                                            <Form.Check 
-                                                            type="switch" 
-                                                            checked={plan.status === 1}
-                                                            onChange={() => updatePlanStatus(plan._id, plan.status === 1 ? 0 : 1)}
+                                                            <Form.Check
+                                                                type="switch"
+                                                                checked={plan.status === 1}
+                                                                onChange={() => updatePlanStatus(plan._id, plan.status === 1 ? 0 : 1)}
                                                             />
                                                         </Form.Group>
                                                     </td>

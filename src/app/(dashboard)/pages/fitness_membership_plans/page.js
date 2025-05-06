@@ -1,22 +1,25 @@
 "use client";
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faRedo, } from '@fortawesome/free-solid-svg-icons';
 import NavBottom from '@/app/components/navBottom';
-import { getApi, postApi, putApi } from '@/helpers';
+import { checkAdmin, getApi, postApi, putApi } from '@/helpers';
 import CustomEditor from '@/app/components/custom_editor';
 import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/app/user_context';
 
 
 const Membership_Plan_Titles = () => {
-
+    const { admin, setAdmin } = useContext(UserContext)
+    const router = useRouter()
     const [show, setShow] = useState(false);
     const [showPass, setShowPass] = useState(false);
-    const [ oldData, setOldData] = useState({})
+    const [oldData, setOldData] = useState({})
 
     const contentUpdate = async (e) => {
         e.preventDefault();
@@ -34,10 +37,10 @@ const Membership_Plan_Titles = () => {
         }
     }
 
-const viewContent = async  () => {
+    const viewContent = async () => {
         try {
             let resp = await getApi('admin/get-page-content/fitness-membership-plans');
-            if(resp.status){
+            if (resp.status) {
                 setOldData(resp.data);
             }
         } catch (error) {
@@ -45,8 +48,12 @@ const viewContent = async  () => {
         }
     }
 
-useEffect(() => {
+    useEffect(() => {
         viewContent()
+    }, [])
+
+    useEffect(() => {
+        checkAdmin(admin, setAdmin, router)
     }, [])
 
     return (
@@ -57,7 +64,7 @@ useEffect(() => {
                     <div className='card-header'>
                         <div className='header_left'>
                             <div className='heading'>
-                               Update Your Titles/Headings
+                                Update Your Titles/Headings
                             </div>
                         </div>
                     </div>
@@ -137,7 +144,7 @@ useEffect(() => {
                 stacked={true}
                 limit={5}
                 autoClose={2000}
-                toastStyle={{ backgroundColor: '#696cff', color:'white' }}
+                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
                 position='bottom-right'
                 theme='colored'
             />
