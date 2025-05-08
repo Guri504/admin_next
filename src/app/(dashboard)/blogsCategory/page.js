@@ -31,13 +31,13 @@ const BlogCategoryListing = () => {
                 catData();
             }
             else {
-                toast("Failed to delete category")
+                toast(resp.message)
 
             }
         }
         catch (error) {
             console.error("Error in deleting Category", error)
-            alert("Error in deleting Category")
+            alert(resp.message)
 
         }
     }
