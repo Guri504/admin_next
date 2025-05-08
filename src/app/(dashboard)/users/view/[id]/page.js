@@ -10,6 +10,7 @@ import { useParams } from 'next/navigation';
 import { checkAdmin, getApi } from '@/helpers';
 import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const UserViewPage = () => {
@@ -102,7 +103,7 @@ const UserViewPage = () => {
                             {
                                 userData.image1 !== '' ?
                                     <div className='card-body'>
-                                        <img src={process.env.imageUrl + '' + userData.image1} alt="user_image" />
+                                        <Image src={process.env.imageUrl + '' + userData.image1} alt="user_image" width='auto' height='auto' />
                                     </div> : <p>No Image Selected</p>
                             }
                         </Card>

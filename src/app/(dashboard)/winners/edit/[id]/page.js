@@ -12,6 +12,7 @@ import { checkAdmin, getApi, postApi, putApi, uploadClick } from '@/helpers';
 import { toast } from 'react-toastify';
 import { useParams, useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const Winner_Edit = () => {
@@ -152,10 +153,12 @@ const Winner_Edit = () => {
                                                     <span className='cross_icon' onClick={handleDelete1}>
                                                         <FontAwesomeIcon icon={faTimes} />
                                                     </span>
-                                                    <img
+                                                    <Image
                                                         src={!imgData ? process.env.imageUrl + '' + oldData?.image1?.original : process.env.imageUrl + '' + imgData?.original}
                                                         alt='blog Image'
                                                         priority="low"
+                                                        width='auto'
+                                                        height='auto'
                                                     />
                                                 </div>
                                             </div>
@@ -184,10 +187,12 @@ const Winner_Edit = () => {
                                                     <span className='cross_icon' onClick={handleDelete2}>
                                                         <FontAwesomeIcon icon={faTimes} />
                                                     </span>
-                                                    <img
+                                                    <Image
                                                         src={!imgData2 ? process.env.imageUrl + '' + oldData?.image2?.original : process.env.imageUrl + '' + imgData2?.original}
                                                         alt='blog Image'
                                                         priority="low"
+                                                        width='auto'
+                                                        height='auto'
                                                     />
                                                 </div>
                                             </div> :

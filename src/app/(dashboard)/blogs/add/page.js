@@ -242,10 +242,12 @@ const AddBLog = () => {
                                                         <span className='cross_icon' onClick={handleDelete}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <img
+                                                        <Image
                                                             src={process.env.imageUrl + '' + imgData.original}
                                                             alt='blog Image'
                                                             priority="low"
+                                                            width='auto'
+                                                            height='auto'
                                                         />
                                                     </div>
                                             }

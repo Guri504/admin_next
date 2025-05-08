@@ -13,6 +13,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 const Winners_VewPage = () => {
     const { admin, setAdmin } = useContext(UserContext)
@@ -86,10 +87,10 @@ const Winners_VewPage = () => {
                             <div className='card-body'>
                                 <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
                                     <SwiperSlide>
-                                        <img src={process.env.imageUrl + '' + winner?.image1?.original} alt="Winner Image" />
+                                        <Image src={process.env.imageUrl + '' + winner?.image1?.original} alt="Winner Image" width='auto' height='auto' />
                                     </SwiperSlide>
                                     <SwiperSlide>
-                                        <img src={process.env.imageUrl + '' + winner?.image2?.original} alt="Winner Image" />
+                                        <Image src={process.env.imageUrl + '' + winner?.image2?.original} alt="Winner Image" width='auto' height='auto' />
                                     </SwiperSlide>
                                 </Swiper>
                             </div>

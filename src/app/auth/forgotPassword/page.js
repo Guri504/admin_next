@@ -38,7 +38,7 @@ const ForgotPassword = () => {
                 </div>
                 <div className='card-body'>
                     <h5>Forgot Password</h5>
-                    <div className='desc'>Enter your email and we'll send you instructions to reset your password</div>
+                    <div className='desc'>Enter your email and we&apos;ll send you instructions to reset your password</div>
                     <Form onSubmit={forgotPassword}>
                         <Form.Group className='form-group'>
                             <Form.Label>Email</Form.Label>

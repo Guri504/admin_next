@@ -11,6 +11,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 import { checkAdmin, fetchCategories, getApi } from '@/helpers';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const BlogView = () => {
@@ -119,7 +120,7 @@ const BlogView = () => {
                             {
                                 viewData.selected_img !== '' ?
                                     <div className='card-body'>
-                                        <img src={process.env.imageUrl + '' + viewData.selected_img} alt="blog_image" />
+                                        <Image src={process.env.imageUrl + '' + viewData.selected_img} alt="blog_image" width='auto' height='auto' />
                                     </div> : <p>No Image Selected</p>
                             }
                         </Card>

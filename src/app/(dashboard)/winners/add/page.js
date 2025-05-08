@@ -13,6 +13,7 @@ import { checkAdmin, postApi, uploadClick } from '@/helpers';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const Winners_Add = () => {
@@ -137,10 +138,12 @@ const Winners_Add = () => {
                                                         <span className='cross_icon' onClick={handleDelete1}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <img
+                                                        <Image
                                                             src={process.env.imageUrl + '' + imgData.original}
                                                             alt='blog Image'
                                                             priority="low"
+                                                            width='auto'
+                                                            height='auto'
                                                         />
                                                     </div>
                                             }
@@ -172,10 +175,12 @@ const Winners_Add = () => {
                                                         <span className='cross_icon' onClick={handleDelete2}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <img
+                                                        <Image
                                                             src={process.env.imageUrl + '' + imgData2.original}
                                                             alt='blog Image'
                                                             priority="low"
+                                                            width='auto'
+                                                            height='auto'
                                                         />
                                                     </div>
                                             }

@@ -17,6 +17,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { useParams, useRouter } from 'next/navigation';
 import { checkAdmin, fetchCategories, getApi, postApi, putApi, toBase64, uploadClick } from '../../../../../helpers'
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 
@@ -274,10 +275,12 @@ const EditBLog = () => {
                                                     <span className='cross_icon' onClick={handleDelete}>
                                                         <FontAwesomeIcon icon={faTimes} />
                                                     </span>
-                                                    <img
+                                                    <Image
                                                         src={(img ? process.env.imageUrl + '' + img : process.env.imageUrl + '' + blogData.selected_img)}
                                                         alt='blog Image'
                                                         fetchPriority="low"
+                                                        width='auto'
+                                                        height='auto'
                                                     // onClick={uploadClick}
                                                     // onChange={onFileChange}
                                                     />

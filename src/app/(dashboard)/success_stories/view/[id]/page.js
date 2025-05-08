@@ -9,6 +9,7 @@ import NavBottom from '@/app/components/navBottom';
 import { checkAdmin, getApi } from '@/helpers';
 import { useParams, useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const Success_Stories_VewPage = () => {
@@ -85,7 +86,7 @@ const Success_Stories_VewPage = () => {
                     <Col xxl={5} xl={5} lg={5} md={5} sm={5} xs={12} className='mt-sm-0 mt-3 ' >
                         <Card className='mb-3'>
                             <div className='card-body'>
-                                <img src={process.env.imageUrl + '' + stories?.image?.original} alt="Story_image" />
+                                <Image src={process.env.imageUrl + '' + stories?.image?.original} alt="Story_image" width='auto' height='auto' />
                             </div>
                         </Card>
                         <Card>

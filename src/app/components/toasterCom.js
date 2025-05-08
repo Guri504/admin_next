@@ -14,7 +14,7 @@ const ToasterCom = () => {
             <ToastContainer>
                 <Toast className='toaster' onClose={() => setShow(false)} show={show} delay={3000} autohide>
                     <Toast.Header>
-                        You're reading this text in a Toast!
+                        You&apos;re reading this text in a Toast!
                     </Toast.Header>
                 </Toast>
             </ToastContainer>

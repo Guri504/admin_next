@@ -11,6 +11,7 @@ import { checkAdmin, formateDate, getApi } from '@/helpers';
 import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
 import { toast, ToastContainer } from 'react-toastify';
+import Image from 'next/image';
 
 
 const Transaction_View_Page = () => {
@@ -124,7 +125,7 @@ const Transaction_View_Page = () => {
                             {
                                 transData?.customerImage !== '' ?
                                     <div className='card-body'>
-                                        <img src={process.env.imageUrl + '' + transData?.customerImage} alt="user_image" />
+                                        <Image src={process.env.imageUrl + '' + transData?.customerImage} alt="user_image" width='auto' height='auto' />
                                     </div> : <p>No Image Selected</p>
                             }
                         </Card>

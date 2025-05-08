@@ -13,6 +13,7 @@ import { checkAdmin, getApi, postApi, putApi, uploadClick } from '@/helpers';
 import { toast } from 'react-toastify';
 import { useParams, useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const Success_Stories_Edit = () => {
@@ -154,10 +155,12 @@ const Success_Stories_Edit = () => {
                                                     <span className='cross_icon' onClick={handleDelete}>
                                                         <FontAwesomeIcon icon={faTimes} />
                                                     </span>
-                                                    <img
+                                                    <Image
                                                         src={!imgData ? process.env.imageUrl + '' + oldData.image.original : process.env.imageUrl + '' + imgData.original}
                                                         alt='blog Image'
                                                         priority="low"
+                                                        width='auto'
+                                                        height='auto'
                                                     />
                                                 </div>
                                             </div>

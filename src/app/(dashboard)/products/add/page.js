@@ -13,6 +13,7 @@ import { checkAdmin, getApi, postApi, uploadClick } from '@/helpers';
 import { toast, ToastContainer } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const Products_Add = () => {
@@ -219,10 +220,12 @@ const Products_Add = () => {
                                                         <span className='cross_icon' onClick={handleDelete}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <img
+                                                        <Image
                                                             src={process.env.imageUrl + '' + imgData.original}
                                                             alt='blog Image'
                                                             priority="low"
+                                                            width='auto'
+                                                            height='auto'
                                                         />
                                                     </div>
                                             }

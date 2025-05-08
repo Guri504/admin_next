@@ -12,6 +12,7 @@ import CustomEditor from '@/app/components/custom_editor';
 import { toast, ToastContainer } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const About_Page_Titles = () => {
@@ -162,10 +163,12 @@ const About_Page_Titles = () => {
                                                         <span className='cross_icon' onClick={handleDelete}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <img
+                                                        <Image
                                                             src={process.env.imageUrl + '' + imgData?.original}
                                                             alt='blog Image'
                                                             priority="low"
+                                                            width='auto'
+                                                            height='auto'
                                                         />
                                                     </div>
                                                 </div>
@@ -197,10 +200,12 @@ const About_Page_Titles = () => {
                                                         <span className='cross_icon' onClick={handleDelete2}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <img
+                                                        <Image
                                                             src={process.env.imageUrl + '' + imgData2?.original}
                                                             alt='blog Image'
                                                             priority="low"
+                                                            width='auto'
+                                                            height='auto'
                                                         />
                                                     </div>
                                                 </div>
@@ -232,10 +237,12 @@ const About_Page_Titles = () => {
                                                         <span className='cross_icon' onClick={handleDelete3}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <img
+                                                        <Image
                                                             src={process.env.imageUrl + '' + imgData3?.original}
                                                             alt='blog Image'
                                                             priority="low"
+                                                            width='auto'
+                                                            height='auto'
                                                         />
                                                     </div>
                                                 </div>

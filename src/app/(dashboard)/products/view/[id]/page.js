@@ -9,6 +9,7 @@ import NavBottom from '@/app/components/navBottom';
 import { checkAdmin, getApi } from '@/helpers';
 import { useParams, useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
+import Image from 'next/image';
 
 
 const Products_VewPage = () => {
@@ -151,7 +152,7 @@ const Products_VewPage = () => {
                             {
                                 // Object.keys(product?.image)?.length > 0 &&
                                 <div className='card-body'>
-                                    <img src={process.env.imageUrl + '' + product?.image?.original} alt="blog_image" />
+                                    <Image src={process.env.imageUrl + '' + product?.image?.original} alt="blog_image" width='auto' height='auto' />
                                 </div>
                             }
                         </Card>
