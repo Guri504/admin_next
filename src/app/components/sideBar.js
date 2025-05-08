@@ -74,7 +74,7 @@ const SideBar = (props) => {
                 <div className='nav_listing' ref={listingRef}>
                     <ul className='nav_links' >
                         <li>
-                            <Link href="#" className='link_area active'>
+                            <Link href="/" className='link_area active'>
                                 <span className='icon'>
                                     <FontAwesomeIcon icon={faHomeAlt} />
                                 </span>

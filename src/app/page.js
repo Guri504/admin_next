@@ -8,7 +8,7 @@ import TooltipCom from './components/tooltipCom';
 import ModalCom from './components/modalCom';
 import MultiSelect from './components/multiSelect';
 import ViewData from './components/viewData';
-import TableListing from './(dashboard)/tableListing/page';
+import TableListing from './(dashboard)/welcome_page/page';
 import { useRouter } from "next/navigation";
 import { UserContext } from './user_context';
 import { checkAdmin } from '@/helpers';
@@ -19,7 +19,7 @@ const HomeAdmin = () => {
   const router = useRouter();
 
   useLayoutEffect(() => {
-    router.replace("/tableListing");
+    router.replace("/welcome_page");
   }, []);
 
   useEffect(() => {
