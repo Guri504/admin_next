@@ -8,8 +8,9 @@ const getApi = async (url) => {
     let storedAdmin = JSON.parse(localStorage.getItem("admin"));
     let token = storedAdmin?.token;
     try {
+        console.log("object", token)
         let resp = await axios.get(process.env.url + '' + url, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { authorization: `Bearer ${token}` }
         });
         if (resp.status === 200) {
             return resp.data;
@@ -25,7 +26,7 @@ const postApi = async (url, data) => {
     let token = storedAdmin?.token;
     try {
         let resp = await axios.post(process.env.url + '' + url, data, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { authorization: `Bearer ${token}` }
         });
         if (resp.status === 200) {
             return resp.data;
@@ -41,7 +42,7 @@ const putApi = async (url, data) => {
     let token = storedAdmin?.token;
     try {
         let resp = await axios.put(process.env.url + '' + url, data, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { authorization: `Bearer ${token}` }
         });
         if (resp.status === 200) {
             return resp.data;
@@ -56,8 +57,10 @@ const deleteApi = async (url, data) => {
     let storedAdmin = JSON.parse(localStorage.getItem("admin"));
     let token = storedAdmin?.token;
     try {
-        let resp = await axios.delete(process.env.url + '' + url, data, {
-            headers: { Authorization: `Bearer ${token}` }
+        console.log("object", token)
+        let resp = await axios.delete(process.env.url + '' + url, {
+            data,
+            headers: { authorization: `Bearer ${token}` }
         });
         if (resp.status === 200) {
             return resp.data;
@@ -73,7 +76,7 @@ const softDeleteManyApi = async (type, check, listing) => {
     let token = storedAdmin?.token;
     try {
         let resp = await putApi(`admin/delete-many?type=${type}`, { check }, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { authorization: `Bearer ${token}` }
         });
         if (resp.status) {
             toast('Items deleted successfully');
@@ -265,6 +268,7 @@ const exportToExcel = (data) => {
 
 const checkAdmin = (admin, setAdmin, router) => {
     let storedUser = localStorage.getItem("admin")
+    console.log("admin", storedUser)
     if (storedUser) {
         let parsedUser = JSON.parse(storedUser);
         if (parsedUser.token && Date.now() < parsedUser.expiresAt) {
