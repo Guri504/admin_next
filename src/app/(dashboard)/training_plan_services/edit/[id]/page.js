@@ -25,7 +25,6 @@ const Training_Plan_Service_Edit = () => {
     const getService = async () => {
         try {
             let resp = await getApi(`admin/trainingPlanService/view/${id}`);
-            console.log(resp)
             if (resp.status) {
                 setServiceData(resp.data);
                 setMessage(resp.message);
@@ -41,7 +40,6 @@ const Training_Plan_Service_Edit = () => {
         const finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await putApi(`admin/trainingPlanService/edit/${id}`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 setMessage(resp.message);
                 router.push('/training_plan_services')

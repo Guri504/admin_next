@@ -27,7 +27,6 @@ const BlogView = () => {
     const blogData = async () => {
         try {
             let resp = await getApi(`admin/blog/view/${params.id}`)
-            console.log("resp", resp)
             if (resp.status) {
                 resp.data.category = resp.data.category.map(item => ({
                     value: item.value,
@@ -47,7 +46,6 @@ const BlogView = () => {
 
     useEffect(() => {
         blogData()
-        console.log("View Data", viewData)
     }, [category])
 
     useEffect(() => {

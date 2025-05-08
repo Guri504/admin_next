@@ -25,10 +25,8 @@ const UserListing = () => {
     const userList = async () => {
         try {
             let resp = await getApi('admin/users');
-            console.log("userList", resp);
             if (resp.status) {
                 setList(resp.message);
-                console.log(resp.message);
             }
         } catch (error) {
             console.log("Fetching Error", error)
@@ -51,7 +49,6 @@ const UserListing = () => {
     }
 
     useEffect(() => {
-        console.log("listing", list)
         userList();
     }, [])
 

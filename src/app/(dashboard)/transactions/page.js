@@ -25,7 +25,6 @@ export default function Transactions() {
     const listing = async () => {
         try {
             let resp = await getApi('admin/transactions');
-            console.log(resp)
             if (resp.status) {
                 setTransactions(resp.data);
             }

@@ -53,7 +53,6 @@ const AddVideo = () => {
     }
 
     const handleDelete = () => {
-        console.log("Delete button clicked")
         setVideo(null)
     }
 

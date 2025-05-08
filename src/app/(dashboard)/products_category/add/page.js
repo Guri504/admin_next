@@ -27,15 +27,11 @@ const Products_Catgeory_Add = () => {
         e.preventDefault();
         const formdata = new FormData(e.target);
         let finalData = Object.fromEntries(formdata.entries())
-        // finalData.image = imgData
-        console.log(finalData)
         try {
             let resp = await postApi('admin/products-category/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast(resp.message)
                 e.target.reset();
-                // setImgData({})
             }
         } catch (error) {
             console.log(error)

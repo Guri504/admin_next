@@ -49,15 +49,12 @@ const EditBLog = () => {
         try {
             if (!params.id) return;
             let resp = await getApi(`admin/blog/view/${params.id}`)
-            console.log("default value", resp);
             if (resp.status) {
-                console.log("dascadsc", resp.data.category)
                 resp.data.category = resp.data.category.map(item => ({
                     value: item.value,
                     label: category.find(cat => cat.value === item)?.label || "Unknown"
                 }));
                 setBlogData(resp.data)
-                console.log("222", resp.data)
                 if (resp.data.imageUrl) {
                     setImgData(resp.data.imageUrl)
                 }
@@ -120,7 +117,6 @@ const EditBLog = () => {
     }
 
     const handleDelete = () => {
-        console.log("kkk", imgData)
         setBlogData(prevData => ({
             ...prevData,
             selected_img: null

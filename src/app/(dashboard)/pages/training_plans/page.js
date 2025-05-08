@@ -27,10 +27,8 @@ const Training_Plans_Titles = () => {
         const finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await putApi(`admin/update-page-content/training-plans`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast("Data Updated Successfully")
-                console.log(resp.message)
             }
         } catch (error) {
             console.log(error)

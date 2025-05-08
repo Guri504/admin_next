@@ -28,7 +28,6 @@ const Success_Stories_Edit = () => {
     const defaultdata = async () => {
         try {
             let resp = await getApi(`admin/success_stories/view/${id}`)
-            console.log(resp)
             if (resp.status) {
                 setOldData(resp.data);
                 setImgData(resp.data.image)
@@ -43,10 +42,8 @@ const Success_Stories_Edit = () => {
         const formdata = new FormData(e.target);
         let finalData = Object.fromEntries(formdata.entries())
         finalData.image = imgData
-        console.log(finalData)
         try {
             let resp = await putApi(`admin/success_stories/edit/${id}`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast(resp.message)
                 e.target.reset();
@@ -67,7 +64,6 @@ const Success_Stories_Edit = () => {
     const handleDelete = () => {
         setImgData(null)
     }
-    console.log(imgData)
 
     useEffect(() => {
         defaultdata()

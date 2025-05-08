@@ -25,7 +25,6 @@ const Transaction_View_Page = () => {
     const getTransaction = async () => {
         try {
             let resp = await getApi(`admin/transaction/view/${id}`);
-            console.log("resp", resp);
             if (resp.status) {
                 setTransData(resp.data)
                 toast(resp.message)

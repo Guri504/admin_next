@@ -15,7 +15,6 @@ const ResetPassword = () => {
     const [showPass2, setShowPass2] = useState(false);
     const paramLink = useSearchParams();
     const tokenFromLink = paramLink.get('token');
-    console.log("object", tokenFromLink)
 
     const resetPassword = async (e) => {
         e.preventDefault();
@@ -23,7 +22,6 @@ const ResetPassword = () => {
             let formdata = new FormData(e.target);
             let finalData = Object.fromEntries(formdata.entries());
             let resp = await postApi(`admin/reset-password/${tokenFromLink}`, finalData);
-            console.log("resp", resp)
             if (resp.status) {
                 router.push('/auth/login')
             }

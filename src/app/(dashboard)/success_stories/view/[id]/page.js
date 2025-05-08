@@ -22,7 +22,6 @@ const Success_Stories_VewPage = () => {
     const getstory = async () => {
         try {
             let resp = await getApi(`admin/success_stories/view/${id}`);
-            console.log(resp)
             if (resp.status) {
                 setStories(resp.data)
             }

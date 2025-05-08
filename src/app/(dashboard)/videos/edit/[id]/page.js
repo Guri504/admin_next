@@ -34,7 +34,6 @@ const EditVideo = () => {
     const videoData = async () => {
         try {
             let resp = await getApi(`admin/video/view/${id}`)
-            console.log("resp", resp)
             if (resp.status) {
                 setViewData(resp.data)
                 setVideo(resp.data.video)
@@ -72,7 +71,6 @@ const EditVideo = () => {
     }
 
     const handleDelete = () => {
-        console.log("Delete button clicked")
         setVideo(null)
     }
 

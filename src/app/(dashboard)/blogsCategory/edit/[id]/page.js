@@ -36,9 +36,7 @@ const EditBLogCategory = () => {
 
     let catData = async () => {
         let resp = await getApi(`admin/blogsCategory/view/${params.id}`);
-        console.log("resp", resp)
         if (resp.status) {
-            console.log("ll", resp.data);
             setCategoryData(resp.data);
         }
         else {
@@ -57,11 +55,7 @@ const EditBLogCategory = () => {
                 ...newData
             }
 
-            console.log("kkk", finalCategoryData);
-
             let resp = await putApi(`admin/blogsCategory/edit/${params.id}`, finalCategoryData)
-            console.log("Category Updated", resp)
-
             if (!resp.status) {
                 toast("Not able to update category");
                 return;
@@ -93,7 +87,6 @@ const EditBLogCategory = () => {
 
     useEffect(() => {
         catData()
-        console.log("===", categoryData)
     }, [params.id])
 
     useEffect(() => {

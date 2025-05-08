@@ -28,15 +28,11 @@ const Products_Colors_Add = () => {
         e.preventDefault();
         const formdata = new FormData(e.target);
         let finalData = Object.fromEntries(formdata.entries())
-        // finalData.image = imgData
-        console.log(finalData)
         try {
             let resp = await postApi('admin/product-color/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast(resp.message)
                 e.target.reset();
-                // setImgData({})
             }
         } catch (error) {
             console.log(error)

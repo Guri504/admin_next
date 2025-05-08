@@ -21,10 +21,8 @@ const Training_Plan_VewPage = () => {
     const plan = async () => {
         try {
             let resp = await getApi(`admin/trainingPlan/view/${id}`);
-            console.log(resp)
             if (resp.status) {
                 setViewPlan(resp.data)
-                console.log(resp.data._id)
             }
         } catch (error) {
             console.log(error)

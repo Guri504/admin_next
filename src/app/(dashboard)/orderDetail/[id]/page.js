@@ -94,7 +94,6 @@ const OrderDetail = () => {
             let filteredData = newStatus.filter(f => !orderData?.updatedStatus?.map(u => u.name).includes(f.name));
             let finalData = filteredData.map(fd => fd.name.replace(/ /g, '_').toLowerCase())
             let resp = await putApi(`admin/order-status/update/${orderData?._id}`, { data: finalData });
-            console.log("resp", resp)
             if (resp.status) {
                 setOrderData(
                     {

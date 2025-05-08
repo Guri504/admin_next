@@ -27,7 +27,6 @@ const Training_Plan_Add = () => {
         let finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await postApi('admin/trainingPlan/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast(resp.message);
                 e.target.reset();

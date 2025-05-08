@@ -31,11 +31,8 @@ const Winners_Add = () => {
         finalData.image1 = imgData
         finalData.image2 = imgData2
 
-        console.log(finalData)
-
         try {
             let resp = await postApi('admin/about_me_winner/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast(resp.message)
                 e.target.reset();

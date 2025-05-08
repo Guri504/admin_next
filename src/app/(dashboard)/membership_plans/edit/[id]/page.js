@@ -28,7 +28,6 @@ const Membership_Plan_Edit = () => {
     const getPlan = async () => {
         try {
             let resp = await getApi(`admin/membershipPlan/view/${id}`);
-            console.log(resp)
             if (resp.status) {
                 setPlanData(resp.data);
             }
@@ -43,7 +42,6 @@ const Membership_Plan_Edit = () => {
         const finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await putApi(`admin/membershipPlan/edit/${id}`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 router.push('/membership_plans')
             }

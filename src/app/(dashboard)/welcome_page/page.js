@@ -68,7 +68,6 @@ const TableListing = () => {
     const lessStockProduct = async () => {
         try {
             let resp = await getApi('admin/less-stock-products');
-            console.log(resp, '++++')
             if (resp.status) {
                 setLessStock(resp.data);
             }

@@ -34,14 +34,8 @@ const About_Page_Titles = () => {
         finalData.image3 = imgData3;
         try {
             let resp = await putApi(`admin/update-page-content/about-me`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast("Data Updated Successfully")
-                // e.target.reset()
-                // setImgData({});
-                // setImgData2({});
-                // setImgData3({});
-                console.log(resp.message)
             }
         } catch (error) {
             console.log(error)

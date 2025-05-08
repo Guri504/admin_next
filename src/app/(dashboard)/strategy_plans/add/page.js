@@ -25,10 +25,8 @@ const Strategy_Plan_Add = () => {
         e.preventDefault();
         const formdata = new FormData(e.target);
         let finalData = Object.fromEntries(formdata.entries())
-        console.log(finalData)
         try {
             let resp = await postApi('admin/strategy_plan/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast('Plan Data Submitted Successfully')
                 e.target.reset();

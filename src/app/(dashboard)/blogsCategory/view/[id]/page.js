@@ -22,10 +22,8 @@ const CategoryViewPage = () => {
     let catData = async () => {
         try {
             let resp = await getApi(`admin/blogsCategory/view/${params.id}`);
-            console.log("ppppp", resp);
             if (resp.status) {
                 setCategoryData(resp.data);
-                console.log("log", resp.data)
             }
         } catch (error) {
             console.error("Fetching Error", error);
@@ -34,7 +32,6 @@ const CategoryViewPage = () => {
 
     useEffect(() => {
         catData()
-        console.log("===", categoryData)
     }, [])
 
     useEffect(() => {

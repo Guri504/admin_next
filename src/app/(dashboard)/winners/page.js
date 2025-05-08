@@ -23,7 +23,6 @@ const About_Me_Listing = () => {
     const listing = async () => {
         try {
             let resp = await getApi('admin/about_me_winner');
-            console.log(resp)
             if (resp.status) {
                 setWinnerslist(resp.data)
             }

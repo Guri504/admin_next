@@ -25,10 +25,8 @@ const Membership_Plan_Service_Add = () => {
         e.preventDefault();
         const formdata = new FormData(e.target);
         let finalData = Object.fromEntries(formdata.entries())
-        console.log(finalData)
         try {
             let resp = await postApi('admin/membershipPlanService/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 setMessage(resp.message);
                 e.target.reset();

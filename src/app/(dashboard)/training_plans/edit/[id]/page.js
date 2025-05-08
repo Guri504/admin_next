@@ -24,7 +24,6 @@ const Training_Plan_Edit = () => {
     const getPlan = async () => {
         try {
             let resp = await getApi(`admin/trainingPlan/view/${id}`);
-            console.log(resp)
             if (resp.status) {
                 setPlanData(resp.data);
             }
@@ -39,7 +38,6 @@ const Training_Plan_Edit = () => {
         const finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await putApi(`admin/trainingPlan/edit/${id}`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 router.push('/training_plans')
             }

@@ -21,10 +21,8 @@ const Training_Plan_Service_VewPage = () => {
     const Service = async () => {
         try {
             let resp = await getApi(`admin/trainingPlanService/view/${id}`);
-            console.log(resp)
             if (resp.status) {
                 setViewService(resp.data)
-                console.log(resp.data._id)
             }
         } catch (error) {
             console.log(error)

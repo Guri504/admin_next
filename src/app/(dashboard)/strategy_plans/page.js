@@ -23,7 +23,6 @@ const Strategy_Plan_Listing = () => {
     const listing = async () => {
         try {
             let resp = await getApi('admin/strategy_plans');
-            console.log(resp)
             if (resp.status) {
                 setPlanlist(resp.data)
                 // toast(resp.message)

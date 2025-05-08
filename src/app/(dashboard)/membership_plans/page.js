@@ -23,11 +23,8 @@ const Membership_Plans_Listing = () => {
     const listing = async () => {
         try {
             let resp = await getApi('admin/membershipPlans');
-            console.log(resp)
             if (resp.status) {
                 setPlanlist(resp.data)
-                // toast(resp.message)
-
             }
         } catch (error) {
             console.log(error);
@@ -38,7 +35,6 @@ const Membership_Plans_Listing = () => {
     const deletePlan = async (id) => {
         try {
             let resp = await putApi(`admin/membershipPlan/delete/${id}`);
-            console.log("resp", resp)
             if (resp.status) {
                 toast(resp.message);
                 listing()

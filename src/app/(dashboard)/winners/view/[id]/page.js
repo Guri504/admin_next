@@ -25,7 +25,6 @@ const Winners_VewPage = () => {
     const getWinner = async () => {
         try {
             let resp = await getApi(`admin/about_me_winner/view/${id}`);
-            console.log(resp)
             if (resp.status) {
                 setWinner(resp.data)
             }

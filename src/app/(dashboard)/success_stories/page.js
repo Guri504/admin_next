@@ -23,7 +23,6 @@ const Success_Stories_Listing = () => {
     const listing = async () => {
         try {
             let resp = await getApi('admin/success_stories');
-            console.log(resp)
             if (resp.status) {
                 setStorieslist(resp.data)
             }

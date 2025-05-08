@@ -25,7 +25,6 @@ const UserViewPage = () => {
     const viewUser = async () => {
         try {
             let resp = await getApi(`admin/user/view/${params.id}`);
-            console.log("resp", resp);
             if (resp.status) {
                 setUserData(resp.data)
             }

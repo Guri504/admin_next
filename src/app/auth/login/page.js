@@ -17,13 +17,10 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log('---------------')
         try {
             let formdata = new FormData(e.target);
             let finalData = Object.fromEntries(formdata.entries());
-            console.log("finalData", finalData)
             let resp = await postApi('admin/login', finalData);
-            console.log(resp, '------')
             if (resp.status) {
                 localStorage.setItem('admin', JSON.stringify(resp.admin))
                 setAdmin(resp.admin);

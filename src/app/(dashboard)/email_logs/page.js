@@ -24,7 +24,6 @@ const Email_Logs_Listing = () => {
     const listing = async () => {
         try {
             let resp = await getApi('admin/email-logs');
-            console.log("resp", resp)
             if (resp.status) {
                 setLogs(resp.data);
             }

@@ -27,7 +27,6 @@ const Membership_Plan_Add = () => {
         let finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await postApi('admin/membershipPlan/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast(resp.message);
                 e.target.reset();

@@ -30,10 +30,8 @@ const Video_Page_Titles = () => {
         finalData.video = video;
         try {
             let resp = await putApi(`admin/update-page-content/videos`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast("Data Updated Successfully")
-                console.log(resp.message)
             }
         } catch (error) {
             console.log(error)

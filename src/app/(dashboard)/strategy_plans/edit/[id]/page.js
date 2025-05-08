@@ -25,7 +25,6 @@ const Strategy_Plan_Edit = () => {
     const getplan = async () => {
         try {
             let resp = await getApi(`admin/strategy_plan/view/${id}`);
-            console.log("resp", resp)
             if (resp.status) {
                 setPlanData(resp.data);
             }
@@ -40,7 +39,6 @@ const Strategy_Plan_Edit = () => {
         const finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await putApi(`admin/strategy_plan/edit/${id}`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast("Data Updated Successfully");
                 setTimeout(() => (router.push('/strategy_plans')), 1500)

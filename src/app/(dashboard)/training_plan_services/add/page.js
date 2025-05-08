@@ -26,7 +26,6 @@ const Training_Plan_Service_Add = () => {
         let finalData = Object.fromEntries(formdata.entries())
         try {
             let resp = await postApi('admin/trainingPlanService/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 setMessage(resp.message)
                 e.target.reset()

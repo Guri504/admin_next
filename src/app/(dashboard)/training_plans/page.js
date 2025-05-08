@@ -23,11 +23,8 @@ const Training_Plans_Listing = () => {
     const listing = async () => {
         try {
             let resp = await getApi('admin/trainingPlans');
-            console.log(resp)
             if (resp.status) {
                 setPlanlist(resp.data)
-                // toast(resp.message)
-
             }
         } catch (error) {
             console.log(error);

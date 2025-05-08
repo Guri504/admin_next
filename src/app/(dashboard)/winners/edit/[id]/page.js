@@ -28,7 +28,6 @@ const Winner_Edit = () => {
     const defaultdata = async () => {
         try {
             let resp = await getApi(`admin/about_me_winner/view/${id}`)
-            console.log(resp)
             if (resp.status) {
                 setOldData(resp.data);
                 setImgData(resp.data.image1)
@@ -45,10 +44,8 @@ const Winner_Edit = () => {
         let finalData = Object.fromEntries(formdata.entries())
         finalData.image1 = imgData
         finalData.image2 = imgData2
-        console.log(finalData)
         try {
             let resp = await putApi(`admin/about_me_winner/edit/${id}`, finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast(resp.message)
                 e.target.reset();

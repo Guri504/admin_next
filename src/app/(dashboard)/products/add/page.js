@@ -45,7 +45,6 @@ const Products_Add = () => {
     const colorList = async () => {
         try {
             let resp = await getApi('admin/products-colors');
-            console.log("resp", resp)
             if (resp) {
                 setColor(resp.data.map(item => ({
                     value: item._id,
@@ -73,7 +72,6 @@ const Products_Add = () => {
 
     const categoryChange = (selectedoptions) => {
         setSelectedCategory(selectedoptions);
-        console.log(selectedoptions)
     };
 
     const productSubmit = async (e) => {
@@ -95,10 +93,8 @@ const Products_Add = () => {
             price: v.price,
             stock: Number(v.stock)
         }));
-        console.log(finalData)
         try {
             let resp = await postApi('admin/product/add', finalData)
-            console.log("resp", resp);
             if (resp.status) {
                 toast("Product with Variants added successfully")
                 setTimeout(() => (window.location.reload()), 1500)

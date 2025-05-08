@@ -23,7 +23,6 @@ const Training_Plan_Service_Listing = () => {
     const listing = async () => {
         try {
             let resp = await getApi('admin/trainingPlanServices');
-            console.log(resp)
             if (resp.status) {
                 setServicelist(resp.data)
                 // toast(resp.message)

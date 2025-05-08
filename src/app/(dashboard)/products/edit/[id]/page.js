@@ -120,7 +120,6 @@ const Products_Edit = () => {
             price: v.price,
             stock: Number(v.stock)
         }));
-        console.log(finalData)
         try {
             let resp = await putApi(`admin/product/edit/${id}`, finalData)
             if (resp.status) {

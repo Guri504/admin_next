@@ -33,7 +33,6 @@ const AddBLogCategory = () => {
 
         try {
             let resp = await postApi('admin/blogsCategory/add', categoryData);
-            console.log("Category added", resp)
 
             if (resp.status) {
                 setCategoryData({
