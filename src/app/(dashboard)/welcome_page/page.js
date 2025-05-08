@@ -12,6 +12,7 @@ import { checkAdmin, getApi } from '@/helpers';
 import { Router } from 'next/router';
 import { useRouter } from 'next/navigation';
 import { BarChart, GroupedBarChart, HorizontalLessStockChart, PieChart, UserChart } from '@/app/components/charts';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 
@@ -160,6 +161,17 @@ const TableListing = () => {
                     </Col>
                 </Row>
             </div>
+            <ToastContainer
+                closeButton={true}
+                closeOnClick={true}
+                newestOnTop={true}
+                stacked={true}
+                limit={5}
+                autoClose={1500}
+                toastStyle={{ backgroundColor: '#696cff', color: 'white' }}
+                position='bottom-right'
+                theme='colored'
+            />
         </div>
     )
 }
