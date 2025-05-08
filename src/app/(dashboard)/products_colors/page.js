@@ -10,7 +10,7 @@ import TableCom from '@/app/components/table';
 import Link from 'next/link';
 import { checkAdmin, deleteApi, getApi, handleCheck, handleMultiCheck, putApi, softDeleteManyApi } from '@/helpers';
 import { toast, ToastContainer } from 'react-toastify';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/user_context';
 
 const Product_Colors_Listing = () => {

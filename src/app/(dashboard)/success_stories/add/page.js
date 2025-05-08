@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic';
 const CustomEditor = dynamic(() => import('@/app/components/custom_editor'), { ssr: false });
 import MultiSelect from '@/app/components/multiSelect';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import '../../../../../public/sass/pages/add.scss';
 import '../../../../../public/sass/pages/homePage.scss';

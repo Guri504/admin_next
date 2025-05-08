@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        url: 'http://localhost:4000/',
+        url: 'https://fitness-backend-ys6d.onrender.com/',
         weburl: 'http://localhost:3000',
-        imageUrl: 'http://localhost:4000/',
+        imageUrl: 'https://fitness-backend-ys6d.onrender.com/',
     },
     images: {
         remotePatterns: [
@@ -11,6 +11,11 @@ const nextConfig = {
                 protocol: 'http',
                 hostname: 'localhost',
                 port: '4000',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'fitness-backend-ys6d.onrender.com',
                 pathname: '/**',
             },
         ],
