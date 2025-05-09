@@ -152,7 +152,7 @@ const Products_VewPage = () => {
                             {
                                 // Object.keys(product?.image)?.length > 0 &&
                                 <div className='card-body'>
-                                    <Image src={process.env.imageUrl + '' + product?.image?.original} alt="blog_image" width='auto' height='auto' />
+                                    <img src={process.env.imageUrl + '' + product?.image?.original} alt="blog_image" />
                                 </div>
                             }
                         </Card>

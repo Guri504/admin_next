@@ -82,11 +82,11 @@ const Products_Edit = () => {
                 }));
                 setDefaultData(resp.data);
                 setVariants(resp.variants.map(v => ({
-                    _id: v._id,
-                    color: { value: v.color._id, label: v.color.title },
-                    size: { value: v.size._id, label: v.size.title },
-                    price: v.price,
-                    stock: v.stock
+                    _id: v?._id,
+                    color: { value: v?.color?._id, label: v?.color?.title },
+                    size: { value: v?.size?._id, label: v?.size?.title },
+                    price: v?.price,
+                    stock: v?.stock
                 })));
                 setSelectedCategory(resp.data.productCategory)
                 setImgData(resp.data.image)
@@ -113,12 +113,12 @@ const Products_Edit = () => {
                 _id: v.size?.value,
                 title: v.size?.label
             },
-            color: {
-                _id: v.color?.value,
-                title: v.color?.label
-            },
+            // color: {
+            //     _id: v.color?.value,
+            //     title: v.color?.label
+            // },
             price: v.price,
-            stock: Number(v.stock)
+            stock: parseInt(v.stock)
         }));
         try {
             let resp = await putApi(`admin/product/edit/${id}`, finalData)
@@ -142,7 +142,7 @@ const Products_Edit = () => {
     }
 
     const handleAddVariant = () => {
-        setVariants([...variants, { size: {}, color: {}, price: '', stock: '' }]);
+        setVariants([...variants, { size: {}, price: '', stock: '' }]);
     };
 
     const handleVariantChange = (index, field, value) => {
@@ -176,6 +176,8 @@ const Products_Edit = () => {
     useEffect(() => {
         checkAdmin(admin, setAdmin, router)
     }, [])
+
+    console.log("asdf", defualtData, variants, selectedCategory, imgData)
 
     return (
         <div className='right_side'>
@@ -248,12 +250,12 @@ const Products_Edit = () => {
                                                         <span className='cross_icon' onClick={handleDelete}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <Image
-                                                            src={process.env.imageUrl + '' + imgData.original}
+                                                        <img
+                                                            src={process.env.imageUrl + '' + imgData?.original}
                                                             alt='blog Image'
-                                                            priority="low"
-                                                            width='auto'
-                                                            height='auto'
+                                                            fetchPriority="low"
+                                                        // width='auto'
+                                                        // height='auto'
                                                         />
                                                     </div>
                                                     :
@@ -289,7 +291,7 @@ const Products_Edit = () => {
                                                     />
                                                 </Form.Group>
                                             </Col>
-                                            <Col md={5}>
+                                            {/* <Col md={5}>
                                                 <Form.Group className='form-group'>
                                                     <Form.Label>Color</Form.Label>
                                                     <MultiSelect
@@ -302,7 +304,7 @@ const Products_Edit = () => {
                                                         onChange={(selected) => handleVariantChange(index, 'color', selected)}
                                                     />
                                                 </Form.Group>
-                                            </Col>
+                                            </Col> */}
                                             <Col xxl={5} xl={5} lg={5} md={5} sm={12} xs={12}>
                                                 <Form.Group className='form-group'>
                                                     <Form.Label>Price <span>*</span></Form.Label>
