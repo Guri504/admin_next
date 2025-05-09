@@ -7,15 +7,18 @@ import { Dropdown } from 'react-bootstrap';
 import { faBars, faCog, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useEffect } from 'react';
 import { UserContext } from '../user_context';
+import { useRouter } from 'next/navigation';
 
 
 const NavTop = (props) => {
+    const router = useRouter()
     const { toggleSidebar, } = props;
     const { setAdmin } = useContext(UserContext)
 
     function handleLogOut() {
         localStorage.removeItem('admin');
         setAdmin('')
+        router.replace('/auth/login')
     }
 
     return (

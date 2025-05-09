@@ -86,12 +86,12 @@ const Products_Add = () => {
                 _id: v.size?.value,
                 title: v.size?.label
             },
-            color: {
-                _id: v.color?.value,
-                title: v.color?.label
-            },
+            // color: {
+            //     _id: v.color?.value,
+            //     title: v.color?.label
+            // },
             price: v.price,
-            stock: Number(v.stock)
+            stock: parseInt(v.stock)
         }));
         try {
             let resp = await postApi('admin/product/add', finalData)
@@ -115,7 +115,7 @@ const Products_Add = () => {
     }
 
     const handleAddVariant = () => {
-        setVariants([...variants, { size: {}, color: {}, price: '', stock: '' }]);
+        setVariants([...variants, { size: {}, price: '', stock: '' }]);
     };
 
     const handleVariantChange = (index, field, value) => {
@@ -216,12 +216,10 @@ const Products_Add = () => {
                                                         <span className='cross_icon' onClick={handleDelete}>
                                                             <FontAwesomeIcon icon={faTimes} />
                                                         </span>
-                                                        <Image
+                                                        <img
                                                             src={process.env.imageUrl + '' + imgData.original}
                                                             alt='blog Image'
                                                             priority="low"
-                                                            width='auto'
-                                                            height='auto'
                                                         />
                                                     </div>
                                             }
@@ -281,7 +279,7 @@ const Products_Add = () => {
                                                     />
                                                 </Form.Group>
                                             </Col>
-                                            <Col md={5}>
+                                            {/* <Col md={5}>
                                                 <Form.Group className='form-group'>
                                                     <Form.Label>Color</Form.Label>
                                                     <MultiSelect
@@ -294,7 +292,7 @@ const Products_Add = () => {
                                                         onChange={(selected) => handleVariantChange(index, 'color', selected)}
                                                     />
                                                 </Form.Group>
-                                            </Col>
+                                            </Col> */}
                                             <Col xxl={5} xl={5} lg={5} md={5} sm={12} xs={12}>
                                                 <Form.Group className='form-group'>
                                                     <Form.Label>Price <span>*</span></Form.Label>

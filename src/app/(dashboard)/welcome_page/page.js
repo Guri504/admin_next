@@ -26,6 +26,8 @@ const TableListing = () => {
     const [userList, setUserList] = useState([])
     const [catOrder, setCatOrder] = useState([]);
     const [lessStock, setLessStock] = useState([])
+    const [activedata, setActiveData] = useState(0)
+    const [inactivedata, setInActiveData] = useState(0)
 
     const listing = async () => {
         try {
@@ -34,7 +36,7 @@ const TableListing = () => {
                 setOrderListing(resp.data);
             }
             else {
-                toast(resp.message);
+                // toast(resp.message);
             }
         } catch (error) {
             console.log("error", error)
@@ -48,6 +50,7 @@ const TableListing = () => {
                 setUserList(resp.data);
             }
             else {
+                console.log(resp)
                 toast(resp.message);
             }
         } catch (error) {
@@ -60,6 +63,9 @@ const TableListing = () => {
             let resp = await getApi('admin/order-by-category');
             if (resp.status) {
                 setCatOrder(resp.data);
+            }
+            else {
+                toast(resp.message)
             }
         } catch (error) {
             console.log(error)
@@ -77,10 +83,21 @@ const TableListing = () => {
         }
     }
 
-    const activeUsers = () => {
-        const activedata = userList.filter(u => u.expiresAt >= Date.now())?.length;
-        const inactivedata = userList.filter(u => u.expiresAt <= Date.now() || !u.expiresAt)?.length;
-        return { activedata, inactivedata }
+    const activeUsers = (list) => {
+        console.log("list", list)
+        let activecount = 0;
+        let inactivecount = 0;
+
+        list.forEach(u => {
+            if (u.expiresAt && u.expiresAt > Date.now()) {
+                activecount++;
+            } else {
+                inactivecount++;
+            }
+        });
+        setActiveData(activecount);
+        setInActiveData(inactivecount);
+        return { activecount, inactivecount };
     }
 
     const userData = () => {
@@ -114,6 +131,12 @@ const TableListing = () => {
     }, [])
 
     useEffect(() => {
+        const { activecount, inactivecount } = activeUsers(userList)
+        setActiveData(activecount);
+        setInActiveData(inactivecount)
+    }, [userList])
+
+    useEffect(() => {
         checkAdmin(admin, setAdmin, router)
     }, [])
 
@@ -141,7 +164,7 @@ const TableListing = () => {
                     <Col xxl={4} xl={4} lg={4} md={4} sm={12} xs={12}>
                         <Card>
                             <div className="card-body">
-                                <PieChart activeUser={activeUsers().activedata} inactiveUser={activeUsers().inactivedata} />
+                                <PieChart activeUser={activedata} inactiveUser={inactivedata} />
                             </div>
                         </Card>
                     </Col>

@@ -98,6 +98,10 @@ export const UserChart = ({ yaxis, xaxis }) => {
 }
 
 export const PieChart = ({ activeUser, inactiveUser }) => {
+    console.log(activeUser, inactiveUser)
+    if (activeUser === 0 && inactiveUser === 0) {
+        return <div>Loading chart...</div>;
+    }
     const series = [activeUser, inactiveUser];
     let options = {
         labels: ["Active Users", "Inactive Users"],
@@ -143,9 +147,9 @@ export const PieChart = ({ activeUser, inactiveUser }) => {
 }
 
 export const GroupedBarChart = ({ data }) => {
-    const months = data?.length > 0 && [...new Set(data.map(item => item.month))];
-    const categories = data?.length > 0 && [...new Set(data.map(cat => cat.category))];
-    let series = categories?.length > 0 && categories.map(ct => {
+    const months = data?.length > 0 ? [...new Set(data.map(item => item.month))] : [];
+    const categories = data?.length > 0 ? [...new Set(data.map(cat => cat.category))] : [];
+    let series = categories?.length > 0 ? categories.map(ct => {
         return {
             name: ct,
             data: months.map(month => {
@@ -153,7 +157,7 @@ export const GroupedBarChart = ({ data }) => {
                 return record ? record.totalRevenue : 0;
             })
         }
-    })
+    }) : [];
     let options = {
         chart: {
             type: 'bar',
@@ -202,8 +206,8 @@ export const GroupedBarChart = ({ data }) => {
 }
 
 export const HorizontalLessStockChart = ({ data }) => {
-    const products = data.map(d => d.productVariant)
-    let series = [{ name: 'Less Stock Products', data: data.map(d => d.stock) }]
+    const products = data?.length > 0 ? data.map(d => d.productVariant) : [];
+    let series = [{ name: 'Less Stock Products', data: data?.length > 0 ? data.map(d => d.stock) : [] }]
     let options = {
         chart: {
             type: 'bar',
